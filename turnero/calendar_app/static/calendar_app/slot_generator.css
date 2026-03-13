@@ -1,0 +1,260 @@
+/* slot_generator.css — SOLO slots generator */
+
+/* 0) Modal */
+body.modal-open{ overflow: hidden; }
+.slot-overlay{
+  position: fixed;
+  top: 58px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15,23,42,0.45);
+  backdrop-filter: blur(3px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  z-index: 1200;
+}
+.slot-overlay.open{ display: flex; }
+.slot-modal{
+  position: relative;
+  width: min(960px, 95vw);
+  max-height: min(92vh, 1100px);
+  background: var(--card, #fff);
+  border: 1px solid var(--border, #e5e7eb);
+  border-radius: 16px;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.20);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.slot-modal__body{
+  padding: 8px 10px 10px;
+  overflow-y: auto;
+}
+.slot-modal__close{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  background: rgba(0,0,0,0.06);
+  border-radius: 50%;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
+.slot-modal__close:hover{ background: rgba(0,0,0,0.12); }
+
+/* 1) Quitar aire de base.html sin tocarlo */
+main.page{
+  max-width: 100% !important;
+  padding: 0 !important;
+}
+
+/* 2) Contenedor */
+.wrap{ padding: 0 !important; max-width: 100% !important; }
+
+.slot-card{
+  padding: 8px !important;
+  border-radius: 12px;
+  box-shadow: none !important;
+  margin: 0 !important;
+}
+
+/* 3) Header más bajo */
+.slot-top{
+  margin-bottom: 0 !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  gap: 12px !important;
+}
+.slot-top > div{ text-align: center; flex: 1; }
+.slot-title{
+  font-size: 22px !important;
+  line-height: 1.05 !important;
+  margin: 0 !important;
+  color: #0f3d1f !important;
+}
+.slot-sub{ font-size: 12px !important; margin-top: 2px !important; line-height: 1.1 !important; }
+
+/* Botón Volver al calendario */
+.btn-back{
+  display: inline-block !important;
+  padding: 8px 12px !important;
+  background: #16a34a !important;
+  color: #fff !important;
+  text-decoration: none !important;
+  border-radius: 6px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  white-space: nowrap !important;
+  transition: background 0.2s !important;
+  flex-shrink: 0;
+}
+.btn-back:hover{
+  background: #15803d !important;
+}
+
+/* Divider ultra fino */
+.divider{ margin: 4px 0 !important; }
+
+/* 4) Grid más denso */
+.grid{ gap: 6px !important; }
+
+label{
+  font-size: 12px !important;
+  margin-bottom: 2px !important;
+  margin-top: 0 !important;
+  line-height: 1.05 !important;
+}
+
+.help{
+  font-size: 11px !important;
+  margin-top: 1px !important;
+  line-height: 1.05 !important;
+}
+
+/* Inputs más bajos */
+input, select{
+  height: 30px !important;
+  padding: 6px 8px !important;
+  border-radius: 10px !important;
+}
+
+/* Mostrar/ocultar */
+.bucket-new-row.hidden{ display: none; }
+.prefix-row{ display: none; }
+
+/* Opciones avanzadas */
+.adv summary{
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 13px;
+}
+.adv summary::marker{ content: ""; }
+.adv summary::after{
+  content: "▸";
+  display: inline-block;
+  margin-left: 6px;
+  transform: rotate(0deg);
+  transition: transform .15s;
+}
+.adv[open] summary::after{ transform: rotate(90deg); }
+.adv{ padding: 6px; border: 1px dashed var(--border, #e5e7eb); border-radius: 10px; }
+.adv > .days-row{ margin-top: 6px; }
+.panels-adv{ margin-top: 6px; }
+.panels-adv summary{
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 13px;
+}
+.panels-adv summary::marker{ content: ""; }
+.panels-adv summary::after{
+  content: "▸";
+  display: inline-block;
+  margin-left: 6px;
+  transform: rotate(0deg);
+  transition: transform .15s;
+}
+.panels-adv[open] summary::after{ transform: rotate(90deg); }
+.panels-adv > .two-cols{ margin-top: 6px; }
+
+/* 5) Días habilitados en línea */
+.days-row{
+  display:flex;
+  align-items:center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.days-row > label{
+  min-width: 130px;
+  margin: 0 !important;
+}
+
+.weekdays{
+  flex: 1;
+  padding: 4px 6px !important;
+  gap: 6px 8px !important;
+  border-radius: 10px !important;
+}
+.weekdays label{ font-size: 12px !important; font-weight: 800 !important; }
+
+/* 6) Panels más compactos */
+.two-cols{ gap: 6px !important; }
+.panel{
+  padding: 7px !important;
+  border-radius: 10px !important;
+  max-width: 460px;
+}
+.panel h3{ font-size: 13px !important; margin: 0 0 2px 0 !important; }
+.panel .sub{ font-size: 11px !important; margin-top: 0 !important; }
+
+.rowline{
+  gap: 4px !important;
+  margin-top: 4px !important;
+  align-items: center;
+}
+
+/* Tablas más bajas */
+table{ margin-top: 4px !important; }
+th, td{ padding: 4px 6px !important; font-size: 11.5px !important; }
+
+/* Botones más chicos */
+button{
+  padding: 6px 9px !important;
+  font-size: 12px !important;
+  border-radius: 10px !important;
+}
+
+/* Inputs de paneles más contenidos */
+.panels-adv .panel input{
+  max-width: 360px;
+}
+.panels-adv .panel .rowline{
+  flex-wrap: wrap;
+}
+.panels-adv .panel .rowline > div{
+  flex: 1 1 160px;
+}
+.panels-adv .panel button{
+  align-self: center;
+  margin-top: 4px;
+}
+
+/* Botones centrados dentro de la fila de añadir */
+.panels-adv .rowline{
+  display: flex;
+  justify-content: center;
+}
+
+/* Color especial verde crema para botones principales */
+button,
+.btn-primary,
+.actions button{
+  background: linear-gradient(90deg, #c4f2c2, #a8e6a3);
+  color: #0f3d1f;
+  border: 1px solid #8dd48a;
+}
+button:hover,
+.btn-primary:hover,
+.actions button:hover{
+  background: linear-gradient(90deg, #b6ecb1, #99e09a);
+  border-color: #7fcf7c;
+}
+
+/* Acciones pegadas */
+.actions{ margin-top: 6px !important; gap: 8px !important; }
+
+/* Debug JSON no empuja la pantalla */
+details.debug{ margin-top: 6px !important; }
+pre.json-out{ max-height: 160px !important; font-size: 11px !important; }
+
+/* Ajuste de servicio para no ocupar todo */
+#service { max-width: 360px; }
+
+/* Opcional: elimina margen final raro */
+.slot-card *:last-child{ margin-bottom: 0 !important; }

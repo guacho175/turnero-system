@@ -1,0 +1,48 @@
+{% extends "calendar_app/base.html" %}
+{% load static %}
+
+{% block title %}Calendario{% endblock %}
+
+{% block extra_head %}
+  {# FullCalendar v6 global: NO usar index.min.css (no existe en tu caso) #}
+  <link rel="stylesheet" href="{% static 'calendar_app/calendar.css' %}">
+{% endblock %}
+
+{% block content %}
+  <div id="calendarWrap" class="card">
+    <div class="calendar-header">
+      <div class="toolbar">
+        <span id="statusMsg" class="status-inline"></span>
+
+        <label for="agendaSelect">Calendario:</label>
+        <select id="agendaSelect" disabled>
+          <option value="BD" selected>Calendario BD</option>
+        </select>
+
+        <div class="bucket-ui">
+          <label for="bucketSelect">Bucket:</label>
+          <select id="bucketSelect"></select>
+          <span class="hint" id="bucketHint">—</span>
+        </div>
+
+        <div class="professional-ui">
+          <label for="professionalSelect">Profesional:</label>
+          <select id="professionalSelect" disabled>
+            <option value="">(Todos)</option>
+          </select>
+          <span class="hint" id="professionalHint">—</span>
+        </div>
+      </div>
+    </div>
+    <div id="calendar"></div>
+  </div>
+{% endblock %}
+
+{% block extra_js %}
+  {# ✅ Assets locales descargados #}
+  <script src="{% static 'vendor/fullcalendar/index.global.min.js' %}"></script>
+  <script src="{% static 'vendor/fullcalendar/locales-all.global.min.js' %}"></script>
+
+  <script src="{% static 'calendar_app/bucket_picker.js' %}"></script>
+  <script src="{% static 'calendar_app/calendar.js' %}"></script>
+{% endblock %}

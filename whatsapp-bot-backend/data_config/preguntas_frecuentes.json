@@ -1,0 +1,24 @@
+{
+  "preguntas": [
+    {
+      "id": "como_agendar",
+      "pregunta": "¿Cómo agendo una hora?",
+      "respuesta": "Selecciona “Agendar” en el menú, elige servicio y fecha. Si necesitas ayuda, puedes pedir hablar con un humano."
+    },
+    {
+      "id": "sena",
+      "pregunta": "¿Se necesita seña?",
+      "respuesta": "Sí. Se solicita una seña para asegurar prioridad en la reserva. Te indicaremos monto y medio de pago por WhatsApp."
+    },
+    {
+      "id": "duracion",
+      "pregunta": "Duración",
+      "respuesta": "La duración de la sesión depende del tratamiento. En el detalle de cada servicio verás una duración estimada y el equipo confirmará en evaluación."
+    },
+    {
+      "id": "reprogramar",
+      "pregunta": "¿Puedo reprogramar?",
+      "respuesta": "Sí, idealmente con al menos 24 horas de anticipación (sujeto a disponibilidad)."
+    }
+  ]
+}

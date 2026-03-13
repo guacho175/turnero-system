@@ -1,0 +1,107 @@
+/* Toast container (flotante) */
+#wk-toast-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: min(520px, calc(100vw - 32px));
+}
+
+
+
+/* Toast */
+.wk-toast {
+  border-radius: 14px;
+  padding: 12px 12px 12px 14px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.18);
+  background: #ffffff;
+  border: 1px solid rgba(0,0,0,.08);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: start;
+  overflow: hidden;
+}
+
+/* Header row */
+.wk-toast__title {
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.wk-toast__msg {
+  margin: 6px 0 0 0;
+  font-size: 13px;
+  opacity: .92;
+}
+
+/* Close button */
+.wk-toast__close {
+  border: 0;
+  background: rgba(0,0,0,.06);
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+}
+.wk-toast__close:hover { background: rgba(0,0,0,.10); }
+
+/* Types */
+.wk-toast--info { border-left: 6px solid #2563eb; }
+.wk-toast--ok { border-left: 6px solid #16a34a; }
+.wk-toast--warn { border-left: 6px solid #f59e0b; }
+.wk-toast--err { border-left: 6px solid #ef4444; }
+
+/* Progress bar */
+.wk-toast__bar {
+  grid-column: 1 / -1;
+  height: 4px;
+  background: rgba(0,0,0,.08);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+.wk-toast__bar > div {
+  height: 100%;
+  width: 100%;
+  transform-origin: left;
+  transform: scaleX(1);
+  background: rgba(0,0,0,.25);
+  animation: wkToastBar linear forwards;
+}
+
+@keyframes wkToastBar {
+  from { transform: scaleX(1); }
+  to { transform: scaleX(0); }
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  #wk-toast-container {
+    left: 16px;
+    right: 16px;
+    width: auto;
+  }
+}
+
+
+/* === Progress indeterminado (cargando) === */
+.wk-toast__bar.indeterminate > div {
+  width: 40%;
+  animation: wkToastIndeterminate 1.1s ease-in-out infinite;
+  background: rgba(0,0,0,.25);
+}
+
+@keyframes wkToastIndeterminate {
+  0%   { transform: translateX(-120%); }
+  100% { transform: translateX(280%); }
+}

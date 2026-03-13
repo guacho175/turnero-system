@@ -1,0 +1,19 @@
+{
+  "nombre": "Dr. Beauty Mendoza",
+  "descripcion_corta": "Estética facial, corporal y aparatología.",
+  "contacto": {
+    "whatsapp": "+54 9 261 000-0000",
+    "telefono": "+54 261 000-0000",
+    "instagram": "@drbeautymendoza",
+    "direccion": "Av. Ejemplo 123, Mendoza, Argentina",
+    "horario": {
+      "lunes_a_viernes": "10:00 a 19:00",
+      "sabado": "10:00 a 14:00",
+      "domingo": "Cerrado"
+    }
+  },
+  "politicas": {
+    "sena": "Se solicita una seña para asegurar prioridad en la reserva. El equipo te indicará el monto y medio de pago.",
+    "reprogramacion": "Puedes reprogramar con al menos 24 horas de anticipación (sujeto a disponibilidad)."
+  }
+}

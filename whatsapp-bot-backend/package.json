@@ -1,0 +1,20 @@
+{
+  "name": "whatsapp-bot-backend",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test:normalize-phone": "node scripts/test-normalize-phone.js",
+    "test:db": "node scripts/test-db-connection.js"
+  },
+  "dependencies": {
+    "axios": "^1.13.2",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "js-yaml": "^4.1.1",
+    "pg": "^8.18.0",
+    "winston": "^3.19.0",
+    "winston-daily-rotate-file": "^5.0.0"
+  }
+}

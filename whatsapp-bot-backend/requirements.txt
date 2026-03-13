@@ -1,0 +1,87 @@
+# ============================================================================
+# REQUERIMIENTOS - WhatsApp Bot Backend - Dr. Beauty Mendoza
+# ============================================================================
+# Proyecto: whatsapp-bot-backend
+# Versión: 1.0.0
+# ============================================================================
+
+# ---------------------------------------------
+# Runtime
+# ---------------------------------------------
+node>=18.0.0
+
+# ---------------------------------------------
+# Dependencias de Producción (Node.js)
+# ---------------------------------------------
+# Servidor web
+express@^4.19.2
+
+# Base de datos PostgreSQL
+pg@^8.18.0
+
+# Cliente HTTP para APIs externas
+axios@^1.13.2
+
+# Variables de entorno
+dotenv@^16.4.5
+
+# Logging
+winston@^3.19.0
+winston-daily-rotate-file@^5.0.0
+
+# Utilidades YAML
+js-yaml
+
+# ---------------------------------------------
+# Dependencias de Desarrollo (Opcional)
+# ---------------------------------------------
+# nodemon (auto-reload en desarrollo)
+# npm install -D nodemon
+
+# ---------------------------------------------
+# Base de Datos
+# ---------------------------------------------
+postgresql>=14.0
+
+# ---------------------------------------------
+# Servicios Externos Requeridos
+# ---------------------------------------------
+# 1. WhatsApp Cloud API (Meta)
+#    - Access Token de Meta
+#    - Phone Number ID
+#    - Webhook verify token
+
+# 2. Django API (Agenda)
+#    - URL: http://127.0.0.1:8000
+
+# 3. (Opcional) Google Gemini AI
+#    - API Key de Google AI Studio
+
+# ---------------------------------------------
+# Instalación
+# ---------------------------------------------
+# npm install
+
+# ---------------------------------------------
+# Ejecución
+# ---------------------------------------------
+# npm start
+# ngrok http 3000
+
+# ---------------------------------------------
+# Variables de Entorno Requeridas
+# ---------------------------------------------
+# PORT=3000
+# META_VERIFY_TOKEN=mi_token_secreto_webhook
+# META_WA_ACCESS_TOKEN=EAA...
+# META_WA_PHONE_NUMBER_ID=1012820511906792
+# DJANGO_API_BASE_URL=http://127.0.0.1:8000
+# DB_HOST=localhost
+# DB_PORT=5432
+# DB_NAME=whatsapp_bot_db
+# DB_USER=postgres
+# DB_PASSWORD=tu_password
+
+# (Opcional) IA:
+# AI_PROVIDER=gemini
+# GEMINI_API_KEY=tu_api_key

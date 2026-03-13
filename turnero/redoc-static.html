@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf8" />
+  <title>API Turnero</title>
+  <!-- needed for adaptive design -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      padding: 0;
+      margin: 0;
+    }
+  </style>
+  <script src="https://cdn.redocly.com/redoc/v2.5.1/bundles/redoc.standalone.js"></script><style data-styled="true" data-styled-version="6.3.9">.hoYmkG{width:calc(100% - 40%);padding:0 40px;}/*!sc*/
+@media print,screen and (max-width: 75rem){.hoYmkG{width:100%;padding:40px 40px;}}/*!sc*/
+data-styled.g4[id="sc-hLseeT"]{content:"hoYmkG,"}/*!sc*/
+.eTiIZG{padding:40px 0;}/*!sc*/
+.eTiIZG:last-child{min-height:calc(100vh + 1px);}/*!sc*/
+.eTiIZG>.eTiIZG:last-child{min-height:initial;}/*!sc*/
+@media print,screen and (max-width: 75rem){.eTiIZG{padding:0;}}/*!sc*/
+.iUTsUN{padding:40px 0;position:relative;}/*!sc*/
+.iUTsUN:last-child{min-height:calc(100vh + 1px);}/*!sc*/
+.iUTsUN>.iUTsUN:last-child{min-height:initial;}/*!sc*/
+@media print,screen and (max-width: 75rem){.iUTsUN{padding:0;}}/*!sc*/
+.iUTsUN:not(:last-of-type):after{position:absolute;bottom:0;width:100%;display:block;content:'';border-bottom:1px solid rgba(0, 0, 0, 0.2);}/*!sc*/
+data-styled.g5[id="sc-eDDNvO"]{content:"eTiIZG,iUTsUN,"}/*!sc*/
+.dVngAA{width:40%;color:#ffffff;background-color:#263238;padding:0 40px;}/*!sc*/
+@media print,screen and (max-width: 75rem){.dVngAA{width:100%;padding:40px 40px;}}/*!sc*/
+data-styled.g6[id="sc-jTrPJt"]{content:"dVngAA,"}/*!sc*/
+.fYLqku{background-color:#263238;}/*!sc*/
+data-styled.g7[id="sc-gLDzao"]{content:"fYLqku,"}/*!sc*/
+.cmAaWK{display:flex;width:100%;padding:0;}/*!sc*/
+@media print,screen and (max-width: 75rem){.cmAaWK{flex-direction:column;}}/*!sc*/
+data-styled.g8[id="sc-iAEyYj"]{content:"cmAaWK,"}/*!sc*/
+.ePkAIL{font-family:Montserrat,sans-serif;font-weight:400;font-size:1.85714em;line-height:1.6em;color:#333333;}/*!sc*/
+data-styled.g9[id="sc-fsQipe"]{content:"ePkAIL,"}/*!sc*/
+.bcNKdh{font-family:Montserrat,sans-serif;font-weight:400;font-size:1.57143em;line-height:1.6em;color:#333333;margin:0 0 20px;}/*!sc*/
+data-styled.g10[id="sc-qRumy"]{content:"bcNKdh,"}/*!sc*/
+.fA-dGxt{border-bottom:1px solid rgba(38, 50, 56, 0.3);margin:1em 0 1em 0;color:rgba(38, 50, 56, 0.5);font-weight:normal;text-transform:uppercase;font-size:0.929em;line-height:20px;}/*!sc*/
+data-styled.g13[id="sc-irTswZ"]{content:"fA-dGxt,"}/*!sc*/
+.jSIqAu{cursor:pointer;margin-left:-20px;padding:0;line-height:1;width:20px;display:inline-block;outline:0;}/*!sc*/
+.jSIqAu:before{content:'';width:15px;height:15px;background-size:contain;background-image:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeD0iMCIgeT0iMCIgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCA1MTIgNTEyIiB4bWw6c3BhY2U9InByZXNlcnZlIj48cGF0aCBmaWxsPSIjMDEwMTAxIiBkPSJNNDU5LjcgMjMzLjRsLTkwLjUgOTAuNWMtNTAgNTAtMTMxIDUwLTE4MSAwIC03LjktNy44LTE0LTE2LjctMTkuNC0yNS44bDQyLjEtNDIuMWMyLTIgNC41LTMuMiA2LjgtNC41IDIuOSA5LjkgOCAxOS4zIDE1LjggMjcuMiAyNSAyNSA2NS42IDI0LjkgOTAuNSAwbDkwLjUtOTAuNWMyNS0yNSAyNS02NS42IDAtOTAuNSAtMjQuOS0yNS02NS41LTI1LTkwLjUgMGwtMzIuMiAzMi4yYy0yNi4xLTEwLjItNTQuMi0xMi45LTgxLjYtOC45bDY4LjYtNjguNmM1MC01MCAxMzEtNTAgMTgxIDBDNTA5LjYgMTAyLjMgNTA5LjYgMTgzLjQgNDU5LjcgMjMzLjR6TTIyMC4zIDM4Mi4ybC0zMi4yIDMyLjJjLTI1IDI0LjktNjUuNiAyNC45LTkwLjUgMCAtMjUtMjUtMjUtNjUuNiAwLTkwLjVsOTAuNS05MC41YzI1LTI1IDY1LjUtMjUgOTAuNSAwIDcuOCA3LjggMTIuOSAxNy4yIDE1LjggMjcuMSAyLjQtMS40IDQuOC0yLjUgNi44LTQuNWw0Mi4xLTQyYy01LjQtOS4yLTExLjYtMTgtMTkuNC0yNS44IC01MC01MC0xMzEtNTAtMTgxIDBsLTkwLjUgOTAuNWMtNTAgNTAtNTAgMTMxIDAgMTgxIDUwIDUwIDEzMSA1MCAxODEgMGw2OC42LTY4LjZDMjc0LjYgMzk1LjEgMjQ2LjQgMzkyLjMgMjIwLjMgMzgyLjJ6Ii8+PC9zdmc+Cg==');opacity:0.5;visibility:hidden;display:inline-block;vertical-align:middle;}/*!sc*/
+h1:hover>.jSIqAu::before,h2:hover>.jSIqAu::before,.jSIqAu:hover::before{visibility:visible;}/*!sc*/
+data-styled.g14[id="sc-csCMJq"]{content:"jSIqAu,"}/*!sc*/
+.cNCXIL{height:18px;width:18px;min-width:18px;vertical-align:middle;float:right;transition:transform 0.2s ease-out;transform:rotateZ(-90deg);}/*!sc*/
+.eiOVYa{height:1.3em;width:1.3em;min-width:1.3em;vertical-align:middle;transition:transform 0.2s ease-out;transform:rotateZ(-90deg);}/*!sc*/
+.ivEQut{height:20px;width:20px;min-width:20px;vertical-align:middle;float:right;transition:transform 0.2s ease-out;transform:rotateZ(0);}/*!sc*/
+.ivEQut polygon{fill:white;}/*!sc*/
+data-styled.g15[id="sc-fbJfz"]{content:"cNCXIL,eiOVYa,ivEQut,"}/*!sc*/
+.kddqHa{border-left:1px solid #7c7cbb;box-sizing:border-box;position:relative;padding:10px 10px 10px 0;}/*!sc*/
+@media screen and (max-width: 50rem){.kddqHa{display:block;overflow:hidden;}}/*!sc*/
+tr:first-of-type>.kddqHa,tr.last>.kddqHa{border-left-width:0;background-position:top left;background-repeat:no-repeat;background-size:1px 100%;}/*!sc*/
+tr:first-of-type>.kddqHa{background-image:linear-gradient(
+      to bottom,
+      transparent 0%,
+      transparent 22px,
+      #7c7cbb 22px,
+      #7c7cbb 100%
+    );}/*!sc*/
+tr.last>.kddqHa{background-image:linear-gradient(
+      to bottom,
+      #7c7cbb 0%,
+      #7c7cbb 22px,
+      transparent 22px,
+      transparent 100%
+    );}/*!sc*/
+tr.last+tr>.kddqHa{border-left-color:transparent;}/*!sc*/
+tr.last:first-child>.kddqHa{background:none;border-left-color:transparent;}/*!sc*/
+data-styled.g18[id="sc-hAtEya"]{content:"kddqHa,"}/*!sc*/
+.eIujjv{vertical-align:top;line-height:20px;white-space:nowrap;font-size:13px;font-family:Courier,monospace;}/*!sc*/
+.eIujjv.deprecated{text-decoration:line-through;color:#707070;}/*!sc*/
+data-styled.g20[id="sc-fGFwA-d"]{content:"eIujjv,"}/*!sc*/
+.bmauLr{border-bottom:1px solid #9fb4be;padding:10px 0;width:75%;box-sizing:border-box;}/*!sc*/
+tr.expanded .bmauLr{border-bottom:none;}/*!sc*/
+@media screen and (max-width: 50rem){.bmauLr{padding:0 20px;border-bottom:none;border-left:1px solid #7c7cbb;}tr.last>.bmauLr{border-left:none;}}/*!sc*/
+data-styled.g21[id="sc-blLsxE"]{content:"bmauLr,"}/*!sc*/
+.bEKmDE{color:#7c7cbb;font-family:Courier,monospace;margin-right:10px;}/*!sc*/
+.bEKmDE::before{content:'';display:inline-block;vertical-align:middle;width:10px;height:1px;background:#7c7cbb;}/*!sc*/
+.bEKmDE::after{content:'';display:inline-block;vertical-align:middle;width:1px;background:#7c7cbb;height:7px;}/*!sc*/
+data-styled.g22[id="sc-ieZDjf"]{content:"bEKmDE,"}/*!sc*/
+.dybric{border-collapse:separate;border-radius:3px;font-size:14px;border-spacing:0;width:100%;}/*!sc*/
+.dybric >tr{vertical-align:middle;}/*!sc*/
+@media screen and (max-width: 50rem){.dybric{display:block;}.dybric >tr,.dybric >tbody>tr{display:block;}}/*!sc*/
+@media screen and (max-width: 50rem) and (-ms-high-contrast:none){.dybric td{float:left;width:100%;}}/*!sc*/
+.dybric .sc-dKfzgG,.dybric .sc-dKfzgG .sc-dKfzgG .sc-dKfzgG,.dybric .sc-dKfzgG .sc-dKfzgG .sc-dKfzgG .sc-dKfzgG .sc-dKfzgG{margin:1em;margin-right:0;background:#fafafa;}/*!sc*/
+.dybric .sc-dKfzgG .sc-dKfzgG,.dybric .sc-dKfzgG .sc-dKfzgG .sc-dKfzgG .sc-dKfzgG,.dybric .sc-dKfzgG .sc-dKfzgG .sc-dKfzgG .sc-dKfzgG .sc-dKfzgG .sc-dKfzgG{background:#ffffff;}/*!sc*/
+data-styled.g24[id="sc-hIqOWV"]{content:"dybric,"}/*!sc*/
+.dXXcln code[class*='language-'],.dXXcln pre[class*='language-']{text-shadow:0 -0.1em 0.2em black;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none;}/*!sc*/
+@media print{.dXXcln code[class*='language-'],.dXXcln pre[class*='language-']{text-shadow:none;}}/*!sc*/
+.dXXcln pre[class*='language-']{padding:1em;margin:0.5em 0;overflow:auto;}/*!sc*/
+.dXXcln .token.comment,.dXXcln .token.prolog,.dXXcln .token.doctype,.dXXcln .token.cdata{color:hsl(30, 20%, 50%);}/*!sc*/
+.dXXcln .token.punctuation{opacity:0.7;}/*!sc*/
+.dXXcln .namespace{opacity:0.7;}/*!sc*/
+.dXXcln .token.property,.dXXcln .token.tag,.dXXcln .token.number,.dXXcln .token.constant,.dXXcln .token.symbol{color:#4a8bb3;}/*!sc*/
+.dXXcln .token.boolean{color:#e64441;}/*!sc*/
+.dXXcln .token.selector,.dXXcln .token.attr-name,.dXXcln .token.string,.dXXcln .token.char,.dXXcln .token.builtin,.dXXcln .token.inserted{color:#a0fbaa;}/*!sc*/
+.dXXcln .token.selector+a,.dXXcln .token.attr-name+a,.dXXcln .token.string+a,.dXXcln .token.char+a,.dXXcln .token.builtin+a,.dXXcln .token.inserted+a,.dXXcln .token.selector+a:visited,.dXXcln .token.attr-name+a:visited,.dXXcln .token.string+a:visited,.dXXcln .token.char+a:visited,.dXXcln .token.builtin+a:visited,.dXXcln .token.inserted+a:visited{color:#4ed2ba;text-decoration:underline;}/*!sc*/
+.dXXcln .token.property.string{color:white;}/*!sc*/
+.dXXcln .token.operator,.dXXcln .token.entity,.dXXcln .token.url,.dXXcln .token.variable{color:hsl(40, 90%, 60%);}/*!sc*/
+.dXXcln .token.atrule,.dXXcln .token.attr-value,.dXXcln .token.keyword{color:hsl(350, 40%, 70%);}/*!sc*/
+.dXXcln .token.regex,.dXXcln .token.important{color:#e90;}/*!sc*/
+.dXXcln .token.important,.dXXcln .token.bold{font-weight:bold;}/*!sc*/
+.dXXcln .token.italic{font-style:italic;}/*!sc*/
+.dXXcln .token.entity{cursor:help;}/*!sc*/
+.dXXcln .token.deleted{color:red;}/*!sc*/
+data-styled.g32[id="sc-iKGpAq"]{content:"dXXcln,"}/*!sc*/
+.bNwKoT{position:relative;}/*!sc*/
+data-styled.g37[id="sc-kMrHXi"]{content:"bNwKoT,"}/*!sc*/
+.dHaogz{font-family:Roboto,sans-serif;font-weight:400;line-height:1.5em;}/*!sc*/
+.dHaogz p:last-child{margin-bottom:0;}/*!sc*/
+.dHaogz h1{font-family:Montserrat,sans-serif;font-weight:400;font-size:1.85714em;line-height:1.6em;color:#32329f;margin-top:0;}/*!sc*/
+.dHaogz h2{font-family:Montserrat,sans-serif;font-weight:400;font-size:1.57143em;line-height:1.6em;color:#333333;}/*!sc*/
+.dHaogz code{color:#e53935;background-color:rgba(38, 50, 56, 0.05);font-family:Courier,monospace;border-radius:2px;border:1px solid rgba(38, 50, 56, 0.1);padding:0 5px;font-size:13px;font-weight:400;word-break:break-word;}/*!sc*/
+.dHaogz pre{font-family:Courier,monospace;white-space:pre;background-color:#11171a;color:white;padding:20px;overflow-x:auto;line-height:normal;border-radius:0;border:1px solid rgba(38, 50, 56, 0.1);}/*!sc*/
+.dHaogz pre code{background-color:transparent;color:white;padding:0;}/*!sc*/
+.dHaogz pre code:before,.dHaogz pre code:after{content:none;}/*!sc*/
+.dHaogz blockquote{margin:0;margin-bottom:1em;padding:0 15px;color:#777;border-left:4px solid #ddd;}/*!sc*/
+.dHaogz img{max-width:100%;box-sizing:content-box;}/*!sc*/
+.dHaogz ul,.dHaogz ol{padding-left:2em;margin:0;margin-bottom:1em;}/*!sc*/
+.dHaogz ul ul,.dHaogz ol ul,.dHaogz ul ol,.dHaogz ol ol{margin-bottom:0;margin-top:0;}/*!sc*/
+.dHaogz table{display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all;border-collapse:collapse;border-spacing:0;margin-top:1.5em;margin-bottom:1.5em;}/*!sc*/
+.dHaogz table tr{background-color:#fff;border-top:1px solid #ccc;}/*!sc*/
+.dHaogz table tr:nth-child(2n){background-color:#fafafa;}/*!sc*/
+.dHaogz table th,.dHaogz table td{padding:6px 13px;border:1px solid #ddd;}/*!sc*/
+.dHaogz table th{text-align:left;font-weight:bold;}/*!sc*/
+.dHaogz .share-link{cursor:pointer;margin-left:-20px;padding:0;line-height:1;width:20px;display:inline-block;outline:0;}/*!sc*/
+.dHaogz .share-link:before{content:'';width:15px;height:15px;background-size:contain;background-image:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeD0iMCIgeT0iMCIgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCA1MTIgNTEyIiB4bWw6c3BhY2U9InByZXNlcnZlIj48cGF0aCBmaWxsPSIjMDEwMTAxIiBkPSJNNDU5LjcgMjMzLjRsLTkwLjUgOTAuNWMtNTAgNTAtMTMxIDUwLTE4MSAwIC03LjktNy44LTE0LTE2LjctMTkuNC0yNS44bDQyLjEtNDIuMWMyLTIgNC41LTMuMiA2LjgtNC41IDIuOSA5LjkgOCAxOS4zIDE1LjggMjcuMiAyNSAyNSA2NS42IDI0LjkgOTAuNSAwbDkwLjUtOTAuNWMyNS0yNSAyNS02NS42IDAtOTAuNSAtMjQuOS0yNS02NS41LTI1LTkwLjUgMGwtMzIuMiAzMi4yYy0yNi4xLTEwLjItNTQuMi0xMi45LTgxLjYtOC45bDY4LjYtNjguNmM1MC01MCAxMzEtNTAgMTgxIDBDNTA5LjYgMTAyLjMgNTA5LjYgMTgzLjQgNDU5LjcgMjMzLjR6TTIyMC4zIDM4Mi4ybC0zMi4yIDMyLjJjLTI1IDI0LjktNjUuNiAyNC45LTkwLjUgMCAtMjUtMjUtMjUtNjUuNiAwLTkwLjVsOTAuNS05MC41YzI1LTI1IDY1LjUtMjUgOTAuNSAwIDcuOCA3LjggMTIuOSAxNy4yIDE1LjggMjcuMSAyLjQtMS40IDQuOC0yLjUgNi44LTQuNWw0Mi4xLTQyYy01LjQtOS4yLTExLjYtMTgtMTkuNC0yNS44IC01MC01MC0xMzEtNTAtMTgxIDBsLTkwLjUgOTAuNWMtNTAgNTAtNTAgMTMxIDAgMTgxIDUwIDUwIDEzMSA1MCAxODEgMGw2OC42LTY4LjZDMjc0LjYgMzk1LjEgMjQ2LjQgMzkyLjMgMjIwLjMgMzgyLjJ6Ii8+PC9zdmc+Cg==');opacity:0.5;visibility:hidden;display:inline-block;vertical-align:middle;}/*!sc*/
+.dHaogz h1:hover>.share-link::before,.dHaogz h2:hover>.share-link::before,.dHaogz .share-link:hover::before{visibility:visible;}/*!sc*/
+.dHaogz a{text-decoration:auto;color:#32329f;}/*!sc*/
+.dHaogz a:visited{color:#32329f;}/*!sc*/
+.dHaogz a:hover{color:#6868cf;text-decoration:auto;}/*!sc*/
+.cFvDiF{font-family:Roboto,sans-serif;font-weight:400;line-height:1.5em;}/*!sc*/
+.cFvDiF p:last-child{margin-bottom:0;}/*!sc*/
+.cFvDiF p:first-child{margin-top:0;}/*!sc*/
+.cFvDiF p:last-child{margin-bottom:0;}/*!sc*/
+.cFvDiF h1{font-family:Montserrat,sans-serif;font-weight:400;font-size:1.85714em;line-height:1.6em;color:#32329f;margin-top:0;}/*!sc*/
+.cFvDiF h2{font-family:Montserrat,sans-serif;font-weight:400;font-size:1.57143em;line-height:1.6em;color:#333333;}/*!sc*/
+.cFvDiF code{color:#e53935;background-color:rgba(38, 50, 56, 0.05);font-family:Courier,monospace;border-radius:2px;border:1px solid rgba(38, 50, 56, 0.1);padding:0 5px;font-size:13px;font-weight:400;word-break:break-word;}/*!sc*/
+.cFvDiF pre{font-family:Courier,monospace;white-space:pre;background-color:#11171a;color:white;padding:20px;overflow-x:auto;line-height:normal;border-radius:0;border:1px solid rgba(38, 50, 56, 0.1);}/*!sc*/
+.cFvDiF pre code{background-color:transparent;color:white;padding:0;}/*!sc*/
+.cFvDiF pre code:before,.cFvDiF pre code:after{content:none;}/*!sc*/
+.cFvDiF blockquote{margin:0;margin-bottom:1em;padding:0 15px;color:#777;border-left:4px solid #ddd;}/*!sc*/
+.cFvDiF img{max-width:100%;box-sizing:content-box;}/*!sc*/
+.cFvDiF ul,.cFvDiF ol{padding-left:2em;margin:0;margin-bottom:1em;}/*!sc*/
+.cFvDiF ul ul,.cFvDiF ol ul,.cFvDiF ul ol,.cFvDiF ol ol{margin-bottom:0;margin-top:0;}/*!sc*/
+.cFvDiF table{display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all;border-collapse:collapse;border-spacing:0;margin-top:1.5em;margin-bottom:1.5em;}/*!sc*/
+.cFvDiF table tr{background-color:#fff;border-top:1px solid #ccc;}/*!sc*/
+.cFvDiF table tr:nth-child(2n){background-color:#fafafa;}/*!sc*/
+.cFvDiF table th,.cFvDiF table td{padding:6px 13px;border:1px solid #ddd;}/*!sc*/
+.cFvDiF table th{text-align:left;font-weight:bold;}/*!sc*/
+.cFvDiF .share-link{cursor:pointer;margin-left:-20px;padding:0;line-height:1;width:20px;display:inline-block;outline:0;}/*!sc*/
+.cFvDiF .share-link:before{content:'';width:15px;height:15px;background-size:contain;background-image:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeD0iMCIgeT0iMCIgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCA1MTIgNTEyIiB4bWw6c3BhY2U9InByZXNlcnZlIj48cGF0aCBmaWxsPSIjMDEwMTAxIiBkPSJNNDU5LjcgMjMzLjRsLTkwLjUgOTAuNWMtNTAgNTAtMTMxIDUwLTE4MSAwIC03LjktNy44LTE0LTE2LjctMTkuNC0yNS44bDQyLjEtNDIuMWMyLTIgNC41LTMuMiA2LjgtNC41IDIuOSA5LjkgOCAxOS4zIDE1LjggMjcuMiAyNSAyNSA2NS42IDI0LjkgOTAuNSAwbDkwLjUtOTAuNWMyNS0yNSAyNS02NS42IDAtOTAuNSAtMjQuOS0yNS02NS41LTI1LTkwLjUgMGwtMzIuMiAzMi4yYy0yNi4xLTEwLjItNTQuMi0xMi45LTgxLjYtOC45bDY4LjYtNjguNmM1MC01MCAxMzEtNTAgMTgxIDBDNTA5LjYgMTAyLjMgNTA5LjYgMTgzLjQgNDU5LjcgMjMzLjR6TTIyMC4zIDM4Mi4ybC0zMi4yIDMyLjJjLTI1IDI0LjktNjUuNiAyNC45LTkwLjUgMCAtMjUtMjUtMjUtNjUuNiAwLTkwLjVsOTAuNS05MC41YzI1LTI1IDY1LjUtMjUgOTAuNSAwIDcuOCA3LjggMTIuOSAxNy4yIDE1LjggMjcuMSAyLjQtMS40IDQuOC0yLjUgNi44LTQuNWw0Mi4xLTQyYy01LjQtOS4yLTExLjYtMTgtMTkuNC0yNS44IC01MC01MC0xMzEtNTAtMTgxIDBsLTkwLjUgOTAuNWMtNTAgNTAtNTAgMTMxIDAgMTgxIDUwIDUwIDEzMSA1MCAxODEgMGw2OC42LTY4LjZDMjc0LjYgMzk1LjEgMjQ2LjQgMzkyLjMgMjIwLjMgMzgyLjJ6Ii8+PC9zdmc+Cg==');opacity:0.5;visibility:hidden;display:inline-block;vertical-align:middle;}/*!sc*/
+.cFvDiF h1:hover>.share-link::before,.cFvDiF h2:hover>.share-link::before,.cFvDiF .share-link:hover::before{visibility:visible;}/*!sc*/
+.cFvDiF a{text-decoration:auto;color:#32329f;}/*!sc*/
+.cFvDiF a:visited{color:#32329f;}/*!sc*/
+.cFvDiF a:hover{color:#6868cf;text-decoration:auto;}/*!sc*/
+.fTBBlJ{font-family:Roboto,sans-serif;font-weight:400;line-height:1.5em;}/*!sc*/
+.fTBBlJ p:last-child{margin-bottom:0;}/*!sc*/
+.fTBBlJ p:first-child{margin-top:0;}/*!sc*/
+.fTBBlJ p:last-child{margin-bottom:0;}/*!sc*/
+.fTBBlJ p{display:inline-block;}/*!sc*/
+.fTBBlJ h1{font-family:Montserrat,sans-serif;font-weight:400;font-size:1.85714em;line-height:1.6em;color:#32329f;margin-top:0;}/*!sc*/
+.fTBBlJ h2{font-family:Montserrat,sans-serif;font-weight:400;font-size:1.57143em;line-height:1.6em;color:#333333;}/*!sc*/
+.fTBBlJ code{color:#e53935;background-color:rgba(38, 50, 56, 0.05);font-family:Courier,monospace;border-radius:2px;border:1px solid rgba(38, 50, 56, 0.1);padding:0 5px;font-size:13px;font-weight:400;word-break:break-word;}/*!sc*/
+.fTBBlJ pre{font-family:Courier,monospace;white-space:pre;background-color:#11171a;color:white;padding:20px;overflow-x:auto;line-height:normal;border-radius:0;border:1px solid rgba(38, 50, 56, 0.1);}/*!sc*/
+.fTBBlJ pre code{background-color:transparent;color:white;padding:0;}/*!sc*/
+.fTBBlJ pre code:before,.fTBBlJ pre code:after{content:none;}/*!sc*/
+.fTBBlJ blockquote{margin:0;margin-bottom:1em;padding:0 15px;color:#777;border-left:4px solid #ddd;}/*!sc*/
+.fTBBlJ img{max-width:100%;box-sizing:content-box;}/*!sc*/
+.fTBBlJ ul,.fTBBlJ ol{padding-left:2em;margin:0;margin-bottom:1em;}/*!sc*/
+.fTBBlJ ul ul,.fTBBlJ ol ul,.fTBBlJ ul ol,.fTBBlJ ol ol{margin-bottom:0;margin-top:0;}/*!sc*/
+.fTBBlJ table{display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all;border-collapse:collapse;border-spacing:0;margin-top:1.5em;margin-bottom:1.5em;}/*!sc*/
+.fTBBlJ table tr{background-color:#fff;border-top:1px solid #ccc;}/*!sc*/
+.fTBBlJ table tr:nth-child(2n){background-color:#fafafa;}/*!sc*/
+.fTBBlJ table th,.fTBBlJ table td{padding:6px 13px;border:1px solid #ddd;}/*!sc*/
+.fTBBlJ table th{text-align:left;font-weight:bold;}/*!sc*/
+.fTBBlJ .share-link{cursor:pointer;margin-left:-20px;padding:0;line-height:1;width:20px;display:inline-block;outline:0;}/*!sc*/
+.fTBBlJ .share-link:before{content:'';width:15px;height:15px;background-size:contain;background-image:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeD0iMCIgeT0iMCIgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCA1MTIgNTEyIiB4bWw6c3BhY2U9InByZXNlcnZlIj48cGF0aCBmaWxsPSIjMDEwMTAxIiBkPSJNNDU5LjcgMjMzLjRsLTkwLjUgOTAuNWMtNTAgNTAtMTMxIDUwLTE4MSAwIC03LjktNy44LTE0LTE2LjctMTkuNC0yNS44bDQyLjEtNDIuMWMyLTIgNC41LTMuMiA2LjgtNC41IDIuOSA5LjkgOCAxOS4zIDE1LjggMjcuMiAyNSAyNSA2NS42IDI0LjkgOTAuNSAwbDkwLjUtOTAuNWMyNS0yNSAyNS02NS42IDAtOTAuNSAtMjQuOS0yNS02NS41LTI1LTkwLjUgMGwtMzIuMiAzMi4yYy0yNi4xLTEwLjItNTQuMi0xMi45LTgxLjYtOC45bDY4LjYtNjguNmM1MC01MCAxMzEtNTAgMTgxIDBDNTA5LjYgMTAyLjMgNTA5LjYgMTgzLjQgNDU5LjcgMjMzLjR6TTIyMC4zIDM4Mi4ybC0zMi4yIDMyLjJjLTI1IDI0LjktNjUuNiAyNC45LTkwLjUgMCAtMjUtMjUtMjUtNjUuNiAwLTkwLjVsOTAuNS05MC41YzI1LTI1IDY1LjUtMjUgOTAuNSAwIDcuOCA3LjggMTIuOSAxNy4yIDE1LjggMjcuMSAyLjQtMS40IDQuOC0yLjUgNi44LTQuNWw0Mi4xLTQyYy01LjQtOS4yLTExLjYtMTgtMTkuNC0yNS44IC01MC01MC0xMzEtNTAtMTgxIDBsLTkwLjUgOTAuNWMtNTAgNTAtNTAgMTMxIDAgMTgxIDUwIDUwIDEzMSA1MCAxODEgMGw2OC42LTY4LjZDMjc0LjYgMzk1LjEgMjQ2LjQgMzkyLjMgMjIwLjMgMzgyLjJ6Ii8+PC9zdmc+Cg==');opacity:0.5;visibility:hidden;display:inline-block;vertical-align:middle;}/*!sc*/
+.fTBBlJ h1:hover>.share-link::before,.fTBBlJ h2:hover>.share-link::before,.fTBBlJ .share-link:hover::before{visibility:visible;}/*!sc*/
+.fTBBlJ a{text-decoration:auto;color:#32329f;}/*!sc*/
+.fTBBlJ a:visited{color:#32329f;}/*!sc*/
+.fTBBlJ a:hover{color:#6868cf;text-decoration:auto;}/*!sc*/
+data-styled.g42[id="sc-cCYyou"]{content:"dHaogz,cFvDiF,fTBBlJ,"}/*!sc*/
+.dkmSdy{display:inline;}/*!sc*/
+data-styled.g43[id="sc-cjERFZ"]{content:"dkmSdy,"}/*!sc*/
+.bPAaet{vertical-align:middle;font-size:13px;line-height:20px;}/*!sc*/
+data-styled.g58[id="sc-gUrTyB"]{content:"bPAaet,"}/*!sc*/
+.UMvzF{color:rgba(102,102,102,0.9);}/*!sc*/
+data-styled.g59[id="sc-kZGvTq"]{content:"UMvzF,"}/*!sc*/
+.fEQrHJ{color:#666;}/*!sc*/
+data-styled.g60[id="sc-iMfspz"]{content:"fEQrHJ,"}/*!sc*/
+.boAHLn{color:#d41f1c;font-size:0.9em;font-weight:normal;margin-left:20px;line-height:1;}/*!sc*/
+data-styled.g62[id="sc-eKYjSU"]{content:"boAHLn,"}/*!sc*/
+.cLOXvd:after{content:' and ';font-weight:normal;}/*!sc*/
+.cLOXvd:last-child:after{content:none;}/*!sc*/
+.cLOXvd a{text-decoration:auto;color:#32329f;}/*!sc*/
+.cLOXvd a:visited{color:#32329f;}/*!sc*/
+.cLOXvd a:hover{color:#6868cf;text-decoration:auto;}/*!sc*/
+data-styled.g81[id="sc-hNeXkj"]{content:"cLOXvd,"}/*!sc*/
+.ddMcul{white-space:nowrap;}/*!sc*/
+.ddMcul:after{content:' or ';white-space:pre;}/*!sc*/
+.ddMcul:last-child:after,.ddMcul:only-child:after{content:none;}/*!sc*/
+.ddMcul a{text-decoration:auto;color:#32329f;}/*!sc*/
+.ddMcul a:visited{color:#32329f;}/*!sc*/
+.ddMcul a:hover{color:#6868cf;text-decoration:auto;}/*!sc*/
+data-styled.g82[id="sc-dskThK"]{content:"ddMcul,"}/*!sc*/
+.kuPPCO{flex:1 1 auto;cursor:pointer;}/*!sc*/
+data-styled.g83[id="sc-cYRmzp"]{content:"kuPPCO,"}/*!sc*/
+.gZngKQ{width:75%;text-overflow:ellipsis;border-radius:4px;overflow:hidden;}/*!sc*/
+@media screen and (max-width: 50rem){.gZngKQ{margin-top:10px;}}/*!sc*/
+data-styled.g84[id="sc-jTsRVM"]{content:"gZngKQ,"}/*!sc*/
+.qtYpT{display:inline-block;margin:0;}/*!sc*/
+data-styled.g85[id="sc-jOQpHb"]{content:"qtYpT,"}/*!sc*/
+.pzAgN{width:100%;display:flex;margin:1em 0;flex-direction:row;}/*!sc*/
+@media screen and (max-width: 50rem){.pzAgN{flex-direction:column;}}/*!sc*/
+data-styled.g86[id="sc-ftWlEC"]{content:"pzAgN,"}/*!sc*/
+.bSStQp{margin-top:0;margin-bottom:0.5em;}/*!sc*/
+data-styled.g92[id="sc-crPCXn"]{content:"bSStQp,"}/*!sc*/
+.FLoTo{width:9ex;display:inline-block;height:13px;line-height:13px;background-color:#333;border-radius:3px;background-repeat:no-repeat;background-position:6px 4px;font-size:7px;font-family:Verdana,sans-serif;color:white;text-transform:uppercase;text-align:center;font-weight:bold;vertical-align:middle;margin-right:6px;margin-top:2px;}/*!sc*/
+.FLoTo.get{background-color:#2F8132;}/*!sc*/
+.FLoTo.post{background-color:#186FAF;}/*!sc*/
+.FLoTo.put{background-color:#95507c;}/*!sc*/
+.FLoTo.options{background-color:#947014;}/*!sc*/
+.FLoTo.patch{background-color:#bf581d;}/*!sc*/
+.FLoTo.delete{background-color:#cc3333;}/*!sc*/
+.FLoTo.basic{background-color:#707070;}/*!sc*/
+.FLoTo.link{background-color:#07818F;}/*!sc*/
+.FLoTo.head{background-color:#A23DAD;}/*!sc*/
+.FLoTo.hook{background-color:#32329f;}/*!sc*/
+.FLoTo.schema{background-color:#707070;}/*!sc*/
+data-styled.g100[id="sc-YtoFD"]{content:"FLoTo,"}/*!sc*/
+.fpIsZT{margin:0;padding:0;}/*!sc*/
+.fpIsZT:first-child{padding-bottom:32px;}/*!sc*/
+.sc-imaUOy .sc-imaUOy{font-size:0.929em;}/*!sc*/
+.cjNZVC{margin:0;padding:0;display:none;}/*!sc*/
+.cjNZVC:first-child{padding-bottom:32px;}/*!sc*/
+.sc-imaUOy .sc-imaUOy{font-size:0.929em;}/*!sc*/
+data-styled.g101[id="sc-imaUOy"]{content:"fpIsZT,cjNZVC,"}/*!sc*/
+.cVgssJ{list-style:none inside none;overflow:hidden;text-overflow:ellipsis;padding:0;}/*!sc*/
+data-styled.g102[id="sc-vjKnv"]{content:"cVgssJ,"}/*!sc*/
+.YJdNS{cursor:pointer;color:#333333;margin:0;padding:12.5px 20px;display:flex;justify-content:space-between;font-family:Montserrat,sans-serif;font-size:0.929em;text-transform:none;background-color:#fafafa;}/*!sc*/
+.YJdNS:hover{color:#32329f;background-color:#e1e1e1;}/*!sc*/
+.YJdNS .sc-fbJfz{height:1.5em;width:1.5em;}/*!sc*/
+.YJdNS .sc-fbJfz polygon{fill:#333333;}/*!sc*/
+.fUjfPA{cursor:pointer;color:#333333;margin:0;padding:12.5px 20px;display:flex;justify-content:space-between;font-family:Montserrat,sans-serif;background-color:#fafafa;}/*!sc*/
+.fUjfPA:hover{color:#32329f;background-color:#ededed;}/*!sc*/
+.fUjfPA .sc-fbJfz{height:1.5em;width:1.5em;}/*!sc*/
+.fUjfPA .sc-fbJfz polygon{fill:#333333;}/*!sc*/
+data-styled.g103[id="sc-bjMMwc"]{content:"YJdNS,fUjfPA,"}/*!sc*/
+.jZTjzp{display:inline-block;vertical-align:middle;width:calc(100% - 38px);overflow:hidden;text-overflow:ellipsis;}/*!sc*/
+data-styled.g104[id="sc-eIrltV"]{content:"jZTjzp,"}/*!sc*/
+.jKUIUi{font-size:0.8em;margin-top:10px;text-align:center;position:fixed;width:260px;bottom:0;background:#fafafa;}/*!sc*/
+.jKUIUi a,.jKUIUi a:visited,.jKUIUi a:hover{color:#333333!important;padding:5px 0;border-top:1px solid #e1e1e1;text-decoration:none;display:flex;align-items:center;justify-content:center;}/*!sc*/
+.jKUIUi img{width:15px;margin-right:5px;}/*!sc*/
+@media screen and (max-width: 50rem){.jKUIUi{width:100%;}}/*!sc*/
+data-styled.g105[id="sc-hAYhfO"]{content:"jKUIUi,"}/*!sc*/
+.dHdMVa{cursor:pointer;position:relative;margin-bottom:5px;}/*!sc*/
+data-styled.g111[id="sc-fYzRkH"]{content:"dHdMVa,"}/*!sc*/
+.dkiPkt{font-family:Courier,monospace;margin-left:10px;flex:1;overflow-x:hidden;text-overflow:ellipsis;}/*!sc*/
+data-styled.g112[id="sc-GJyyy"]{content:"dkiPkt,"}/*!sc*/
+.iWrBta{outline:0;color:inherit;width:100%;text-align:left;cursor:pointer;padding:10px 30px 10px 20px;border-radius:4px 4px 0 0;background-color:#11171a;display:flex;white-space:nowrap;align-items:center;border:1px solid transparent;border-bottom:0;transition:border-color 0.25s ease;}/*!sc*/
+.iWrBta ..sc-GJyyy{color:#ffffff;}/*!sc*/
+.iWrBta:focus{box-shadow:inset 0 2px 2px rgba(0, 0, 0, 0.45),0 2px 0 rgba(128, 128, 128, 0.25);}/*!sc*/
+data-styled.g113[id="sc-jYvNnh"]{content:"iWrBta,"}/*!sc*/
+.ejslkd{font-size:0.929em;line-height:20px;background-color:#186FAF;color:#ffffff;padding:3px 10px;text-transform:uppercase;font-family:Montserrat,sans-serif;margin:0;}/*!sc*/
+.kCsPwr{font-size:0.929em;line-height:20px;background-color:#2F8132;color:#ffffff;padding:3px 10px;text-transform:uppercase;font-family:Montserrat,sans-serif;margin:0;}/*!sc*/
+data-styled.g114[id="sc-eGFuAY"]{content:"ejslkd,kCsPwr,"}/*!sc*/
+.dplsyJ{position:absolute;width:100%;z-index:100;background:#fafafa;color:#263238;box-sizing:border-box;box-shadow:0 0 6px rgba(0, 0, 0, 0.33);overflow:hidden;border-bottom-left-radius:4px;border-bottom-right-radius:4px;transition:all 0.25s ease;visibility:hidden;transform:translateY(-50%) scaleY(0);}/*!sc*/
+data-styled.g115[id="sc-fnxdBX"]{content:"dplsyJ,"}/*!sc*/
+.cNCbuV{padding:10px;}/*!sc*/
+data-styled.g116[id="sc-llcuoK"]{content:"cNCbuV,"}/*!sc*/
+.eobUac{padding:5px;border:1px solid #ccc;background:#fff;word-break:break-all;color:#32329f;}/*!sc*/
+.eobUac >span{color:#333333;}/*!sc*/
+data-styled.g117[id="sc-jnsZEx"]{content:"eobUac,"}/*!sc*/
+.gQivdi{display:block;border:0;width:100%;text-align:left;padding:10px;border-radius:2px;margin-bottom:4px;line-height:1.5em;cursor:pointer;color:#1d8127;background-color:rgba(29,129,39,0.07);cursor:default;}/*!sc*/
+.gQivdi:focus{outline:auto #1d8127;}/*!sc*/
+.gQivdi::before{content:"—";font-weight:bold;width:1.5em;text-align:center;display:inline-block;vertical-align:top;}/*!sc*/
+.gQivdi:focus{outline:0;}/*!sc*/
+data-styled.g120[id="sc-caslwi"]{content:"gQivdi,"}/*!sc*/
+.jJkGwY{vertical-align:top;}/*!sc*/
+data-styled.g123[id="sc-fYaxgW"]{content:"jJkGwY,"}/*!sc*/
+.hsJdXF{font-size:1.3em;padding:0.2em 0;margin:3em 0 1.1em;color:#333333;font-weight:normal;}/*!sc*/
+data-styled.g124[id="sc-fJjTez"]{content:"hsJdXF,"}/*!sc*/
+.dUdgLx{margin-bottom:30px;}/*!sc*/
+data-styled.g129[id="sc-iERabE"]{content:"dUdgLx,"}/*!sc*/
+.dKxKge{user-select:none;width:20px;height:20px;align-self:center;display:flex;flex-direction:column;color:#32329f;}/*!sc*/
+data-styled.g130[id="sc-iqavZh"]{content:"dKxKge,"}/*!sc*/
+.kBSkUl{width:260px;background-color:#fafafa;overflow:hidden;display:flex;flex-direction:column;backface-visibility:hidden;height:100vh;position:sticky;position:-webkit-sticky;top:0;}/*!sc*/
+@media screen and (max-width: 50rem){.kBSkUl{position:fixed;z-index:20;width:100%;background:#fafafa;display:none;}}/*!sc*/
+@media print{.kBSkUl{display:none;}}/*!sc*/
+data-styled.g131[id="sc-eXHjA-d"]{content:"kBSkUl,"}/*!sc*/
+.laYfRb{outline:none;user-select:none;background-color:#f2f2f2;color:#32329f;display:none;cursor:pointer;position:fixed;right:20px;z-index:100;border-radius:50%;box-shadow:0 0 20px rgba(0, 0, 0, 0.3);bottom:44px;width:60px;height:60px;padding:0 20px;}/*!sc*/
+@media screen and (max-width: 50rem){.laYfRb{display:flex;}}/*!sc*/
+.laYfRb svg{color:#0065FB;}/*!sc*/
+@media print{.laYfRb{display:none;}}/*!sc*/
+data-styled.g132[id="sc-kVmAmQ"]{content:"laYfRb,"}/*!sc*/
+.gRgPoG{font-family:Roboto,sans-serif;font-size:14px;font-weight:400;line-height:1.5em;color:#333333;display:flex;position:relative;text-align:left;-webkit-font-smoothing:antialiased;font-smoothing:antialiased;text-rendering:optimizeSpeed!important;tap-highlight-color:rgba(0, 0, 0, 0);text-size-adjust:100%;}/*!sc*/
+.gRgPoG *{box-sizing:border-box;-webkit-tap-highlight-color:rgba(255, 255, 255, 0);}/*!sc*/
+data-styled.g133[id="sc-dxnOzf"]{content:"gRgPoG,"}/*!sc*/
+.gfWNtA{z-index:1;position:relative;overflow:hidden;width:calc(100% - 260px);contain:layout;}/*!sc*/
+@media print,screen and (max-width: 50rem){.gfWNtA{width:100%;}}/*!sc*/
+data-styled.g134[id="sc-juTflS"]{content:"gfWNtA,"}/*!sc*/
+.jYOHCb{background:#263238;position:absolute;top:0;bottom:0;right:0;width:calc((100% - 260px) * 0.4);}/*!sc*/
+@media print,screen and (max-width: 75rem){.jYOHCb{display:none;}}/*!sc*/
+data-styled.g135[id="sc-emEvRt"]{content:"jYOHCb,"}/*!sc*/
+.ijJYzO{padding:5px 0;}/*!sc*/
+data-styled.g136[id="sc-kkjMEg"]{content:"ijJYzO,"}/*!sc*/
+.kOlXdP{width:calc(100% - 40px);box-sizing:border-box;margin:0 20px;padding:5px 10px 5px 20px;border:0;border-bottom:1px solid #e1e1e1;font-family:Roboto,sans-serif;font-weight:bold;font-size:13px;color:#333333;background-color:transparent;outline:none;}/*!sc*/
+data-styled.g137[id="sc-cMlaQv"]{content:"kOlXdP,"}/*!sc*/
+.gtHWGb{position:absolute;left:20px;height:1.8em;width:0.9em;}/*!sc*/
+.gtHWGb path{fill:#333333;}/*!sc*/
+data-styled.g138[id="sc-iJQrDi"]{content:"gtHWGb,"}/*!sc*/
+</style>
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700|Roboto:300,400,700" rel="stylesheet">
+</head>
+
+<body>
+  
+      <div id="redoc"><div class="sc-dxnOzf gRgPoG redoc-wrap"><div class="sc-eXHjA-d kBSkUl menu-content" style="top:0px;height:calc(100vh - 0px)"><div role="search" class="sc-kkjMEg ijJYzO"><svg class="sc-iJQrDi gtHWGb search-icon" version="1.1" viewBox="0 0 1000 1000" x="0px" xmlns="http://www.w3.org/2000/svg" y="0px"><path d="M968.2,849.4L667.3,549c83.9-136.5,66.7-317.4-51.7-435.6C477.1-25,252.5-25,113.9,113.4c-138.5,138.3-138.5,362.6,0,501C219.2,730.1,413.2,743,547.6,666.5l301.9,301.4c43.6,43.6,76.9,14.9,104.2-12.4C981,928.3,1011.8,893,968.2,849.4z M524.5,522c-88.9,88.7-233,88.7-321.8,0c-88.9-88.7-88.9-232.6,0-321.3c88.9-88.7,233-88.7,321.8,0C613.4,289.4,613.4,433.3,524.5,522z"></path></svg><input placeholder="Search..." aria-label="Search" type="text" class="sc-cMlaQv kOlXdP search-input" value=""/></div><div class="sc-kMrHXi bNwKoT scrollbar-container undefined"><ul role="menu" class="sc-imaUOy fpIsZT"><li tabindex="0" depth="1" data-item-id="tag/calendar" role="menuitem" aria-label="calendar" aria-expanded="false" class="sc-vjKnv cVgssJ"><label class="sc-bjMMwc YJdNS -depth1"><span width="calc(100% - 38px)" title="calendar" class="sc-eIrltV jZTjzp">calendar</span><svg class="sc-fbJfz cNCXIL" version="1.1" viewBox="0 0 24 24" x="0" xmlns="http://www.w3.org/2000/svg" y="0" aria-hidden="true"><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon></svg></label><ul class="sc-imaUOy cjNZVC"><li tabindex="0" depth="2" data-item-id="tag/calendar/operation/calendar_buckets_slots_reservar_create" role="menuitem" aria-label="calendar_buckets_slots_reservar_create" aria-expanded="false" class="sc-vjKnv cVgssJ"><label class="sc-bjMMwc fUjfPA -depth2"><span type="post" class="sc-YtoFD FLoTo operation-type post">post</span><span tabindex="0" width="calc(100% - 38px)" class="sc-eIrltV jZTjzp">calendar_buckets_slots_reservar_create</span></label></li><li tabindex="0" depth="2" data-item-id="tag/calendar/operation/calendar_buckets_slots_generar_create" role="menuitem" aria-label="calendar_buckets_slots_generar_create" aria-expanded="false" class="sc-vjKnv cVgssJ"><label class="sc-bjMMwc fUjfPA -depth2"><span type="post" class="sc-YtoFD FLoTo operation-type post">post</span><span tabindex="0" width="calc(100% - 38px)" class="sc-eIrltV jZTjzp">calendar_buckets_slots_generar_create</span></label></li><li tabindex="0" depth="2" data-item-id="tag/calendar/operation/calendar_buckets_slots_libres_retrieve" role="menuitem" aria-label="calendar_buckets_slots_libres_retrieve" aria-expanded="false" class="sc-vjKnv cVgssJ"><label class="sc-bjMMwc fUjfPA -depth2"><span type="get" class="sc-YtoFD FLoTo operation-type get">get</span><span tabindex="0" width="calc(100% - 38px)" class="sc-eIrltV jZTjzp">calendar_buckets_slots_libres_retrieve</span></label></li><li tabindex="0" depth="2" data-item-id="tag/calendar/operation/calendar_buckets_google_retrieve" role="menuitem" aria-label="calendar_buckets_google_retrieve" aria-expanded="false" class="sc-vjKnv cVgssJ"><label class="sc-bjMMwc fUjfPA -depth2"><span type="get" class="sc-YtoFD FLoTo operation-type get">get</span><span tabindex="0" width="calc(100% - 38px)" class="sc-eIrltV jZTjzp">calendar_buckets_google_retrieve</span></label></li><li tabindex="0" depth="2" data-item-id="tag/calendar/operation/calendar_buckets_sincronizar_create" role="menuitem" aria-label="calendar_buckets_sincronizar_create" aria-expanded="false" class="sc-vjKnv cVgssJ"><label class="sc-bjMMwc fUjfPA -depth2"><span type="post" class="sc-YtoFD FLoTo operation-type post">post</span><span tabindex="0" width="calc(100% - 38px)" class="sc-eIrltV jZTjzp">calendar_buckets_sincronizar_create</span></label></li><li tabindex="0" depth="2" data-item-id="tag/calendar/operation/calendar_buckets_tabla_retrieve" role="menuitem" aria-label="calendar_buckets_tabla_retrieve" aria-expanded="false" class="sc-vjKnv cVgssJ"><label class="sc-bjMMwc fUjfPA -depth2"><span type="get" class="sc-YtoFD FLoTo operation-type get">get</span><span tabindex="0" width="calc(100% - 38px)" class="sc-eIrltV jZTjzp">calendar_buckets_tabla_retrieve</span></label></li><li tabindex="0" depth="2" data-item-id="tag/calendar/operation/calendar_calendars_limpiar_create" role="menuitem" aria-label="calendar_calendars_limpiar_create" aria-expanded="false" class="sc-vjKnv cVgssJ"><label class="sc-bjMMwc fUjfPA -depth2"><span type="post" class="sc-YtoFD FLoTo operation-type post">post</span><span tabindex="0" width="calc(100% - 38px)" class="sc-eIrltV jZTjzp">calendar_calendars_limpiar_create</span></label></li><li tabindex="0" depth="2" data-item-id="tag/calendar/operation/calendar_calendars_limpiar_bucket_create" role="menuitem" aria-label="calendar_calendars_limpiar_bucket_create" aria-expanded="false" class="sc-vjKnv cVgssJ"><label class="sc-bjMMwc fUjfPA -depth2"><span type="post" class="sc-YtoFD FLoTo operation-type post">post</span><span tabindex="0" width="calc(100% - 38px)" class="sc-eIrltV jZTjzp">calendar_calendars_limpiar_bucket_create</span></label></li></ul></li></ul><div class="sc-hAYhfO jKUIUi"><a target="_blank" rel="noopener noreferrer" href="https://redocly.com/redoc/">API docs by Redocly</a></div></div></div><div class="sc-kVmAmQ laYfRb"><div class="sc-iqavZh dKxKge"><svg class="" style="transform:translate(2px, -4px) rotate(180deg);transition:transform 0.2s ease" viewBox="0 0 926.23699 573.74994" version="1.1" x="0px" y="0px" width="15" height="15"><g transform="translate(904.92214,-879.1482)"><path d="
+          m -673.67664,1221.6502 -231.2455,-231.24803 55.6165,
+          -55.627 c 30.5891,-30.59485 56.1806,-55.627 56.8701,-55.627 0.6894,
+          0 79.8637,78.60862 175.9427,174.68583 l 174.6892,174.6858 174.6892,
+          -174.6858 c 96.079,-96.07721 175.253196,-174.68583 175.942696,
+          -174.68583 0.6895,0 26.281,25.03215 56.8701,
+          55.627 l 55.6165,55.627 -231.245496,231.24803 c -127.185,127.1864
+          -231.5279,231.248 -231.873,231.248 -0.3451,0 -104.688,
+          -104.0616 -231.873,-231.248 z
+        " fill="currentColor"></path></g></svg><svg class="" style="transform:translate(2px, 4px);transition:transform 0.2s ease" viewBox="0 0 926.23699 573.74994" version="1.1" x="0px" y="0px" width="15" height="15"><g transform="translate(904.92214,-879.1482)"><path d="
+          m -673.67664,1221.6502 -231.2455,-231.24803 55.6165,
+          -55.627 c 30.5891,-30.59485 56.1806,-55.627 56.8701,-55.627 0.6894,
+          0 79.8637,78.60862 175.9427,174.68583 l 174.6892,174.6858 174.6892,
+          -174.6858 c 96.079,-96.07721 175.253196,-174.68583 175.942696,
+          -174.68583 0.6895,0 26.281,25.03215 56.8701,
+          55.627 l 55.6165,55.627 -231.245496,231.24803 c -127.185,127.1864
+          -231.5279,231.248 -231.873,231.248 -0.3451,0 -104.688,
+          -104.0616 -231.873,-231.248 z
+        " fill="currentColor"></path></g></svg></div></div><div class="sc-juTflS gfWNtA api-content"><div class="sc-eDDNvO eTiIZG"><div class="sc-iAEyYj cmAaWK"><div class="sc-hLseeT hoYmkG api-info"><h1 class="sc-fsQipe sc-crPCXn ePkAIL bSStQp">API Turnero<!-- --> <span>(<!-- -->1.0.0<!-- -->)</span></h1><p>Download OpenAPI specification<!-- -->:</p><div class="sc-iKGpAq sc-cCYyou dXXcln dHaogz"></div><div data-role="redoc-summary" html="" class="sc-iKGpAq sc-cCYyou dXXcln dHaogz"></div><div data-role="redoc-description" html="&lt;p&gt;Documentación de la API&lt;/p&gt;
+" class="sc-iKGpAq sc-cCYyou dXXcln dHaogz"><p>Documentación de la API</p>
+</div></div></div></div><div id="tag/calendar" data-section-id="tag/calendar" class="sc-eDDNvO eTiIZG"><div class="sc-iAEyYj cmAaWK"><div class="sc-hLseeT hoYmkG"><h2 class="sc-qRumy bcNKdh"><a class="sc-csCMJq jSIqAu" href="#tag/calendar" aria-label="tag/calendar"></a>calendar</h2></div></div></div><div id="tag/calendar/operation/calendar_buckets_slots_reservar_create" data-section-id="tag/calendar/operation/calendar_buckets_slots_reservar_create" class="sc-eDDNvO iUTsUN"><div data-section-id="operation/calendar_buckets_slots_reservar_create" id="operation/calendar_buckets_slots_reservar_create" class="sc-iAEyYj cmAaWK"><div class="sc-hLseeT hoYmkG"><h2 class="sc-qRumy bcNKdh"><a class="sc-csCMJq jSIqAu" href="#tag/calendar/operation/calendar_buckets_slots_reservar_create" aria-label="tag/calendar/operation/calendar_buckets_slots_reservar_create"></a>calendar_buckets_slots_reservar_create<!-- --> </h2><div class="sc-iERabE dUdgLx"><div html="&lt;p&gt;POST /calendar/buckets/&lt;bucket&gt;/slots/&lt;event_id&gt;/reservar&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;valida que event_id pertenezca al bucket (NO confiar en el bot)&lt;/li&gt;
+&lt;li&gt;cambia slot en BD a RESERVADO (sin borrarlo)&lt;/li&gt;
+&lt;li&gt;crea evento confirmado en calendario FINAL del bucket (notificaciones)&lt;/li&gt;
+&lt;/ul&gt;
+" class="sc-iKGpAq sc-cCYyou dXXcln dHaogz"><p>POST /calendar/buckets/<bucket>/slots/<event_id>/reservar</p>
+<ul>
+<li>valida que event_id pertenezca al bucket (NO confiar en el bot)</li>
+<li>cambia slot en BD a RESERVADO (sin borrarlo)</li>
+<li>crea evento confirmado en calendario FINAL del bucket (notificaciones)</li>
+</ul>
+</div></div><div class="sc-ftWlEC pzAgN"><div class="sc-cYRmzp kuPPCO"><h5 class="sc-irTswZ sc-jOQpHb fA-dGxt qtYpT">Authorizations:</h5><svg class="sc-fbJfz eiOVYa" version="1.1" viewBox="0 0 24 24" x="0" xmlns="http://www.w3.org/2000/svg" y="0" aria-hidden="true"><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon></svg></div><div class="sc-jTsRVM gZngKQ"><span class="sc-dskThK ddMcul"><span class="sc-hNeXkj cLOXvd"><i>cookieAuth</i></span></span><span class="sc-dskThK ddMcul"><span class="sc-hNeXkj cLOXvd"><i>basicAuth</i></span></span><span class="sc-dskThK ddMcul">None</span></div></div><div><h5 class="sc-irTswZ fA-dGxt">path<!-- --> Parameters</h5><table class="sc-hIqOWV dybric"><tbody><tr class=""><td kind="field" title="bucket" class="sc-hAtEya sc-fGFwA-d kddqHa eIujjv"><span class="sc-ieZDjf bEKmDE"></span><span class="property-name">bucket</span><div class="sc-gUrTyB sc-eKYjSU bPAaet boAHLn">required</div></td><td class="sc-blLsxE bmauLr"><div><div><span class="sc-gUrTyB sc-kZGvTq bPAaet UMvzF"></span><span class="sc-gUrTyB sc-iMfspz bPAaet fEQrHJ">string</span></div> <div><div html="" class="sc-iKGpAq sc-cCYyou dXXcln cFvDiF"></div></div></div></td></tr><tr class="last "><td kind="field" title="event_id" class="sc-hAtEya sc-fGFwA-d kddqHa eIujjv"><span class="sc-ieZDjf bEKmDE"></span><span class="property-name">event_id</span><div class="sc-gUrTyB sc-eKYjSU bPAaet boAHLn">required</div></td><td class="sc-blLsxE bmauLr"><div><div><span class="sc-gUrTyB sc-kZGvTq bPAaet UMvzF"></span><span class="sc-gUrTyB sc-iMfspz bPAaet fEQrHJ">string</span></div> <div><div html="" class="sc-iKGpAq sc-cCYyou dXXcln cFvDiF"></div></div></div></td></tr></tbody></table></div><div><h3 class="sc-fJjTez hsJdXF">Responses</h3><div><button class="sc-caslwi gQivdi" disabled=""><strong class="sc-fYaxgW jJkGwY">200<!-- --> </strong><div html="&lt;p&gt;No response body&lt;/p&gt;
+" class="sc-iKGpAq sc-cCYyou sc-cjERFZ dXXcln fTBBlJ dkmSdy"><p>No response body</p>
+</div></button></div></div></div><div class="sc-jTrPJt sc-gLDzao dVngAA fYLqku"><div class="sc-fYzRkH dHdMVa"><button class="sc-jYvNnh iWrBta"><span type="post" class="sc-eGFuAY ejslkd http-verb post">post</span><span class="sc-GJyyy dkiPkt">/calendar/buckets/{bucket}/slots/{event_id}/reservar</span><svg class="sc-fbJfz ivEQut" style="margin-right:-25px" version="1.1" viewBox="0 0 24 24" x="0" xmlns="http://www.w3.org/2000/svg" y="0" aria-hidden="true"><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon></svg></button><div aria-hidden="true" class="sc-fnxdBX dplsyJ"><div class="sc-llcuoK cNCbuV"><div html="" class="sc-iKGpAq sc-cCYyou dXXcln cFvDiF"></div><div tabindex="0" role="button"><div class="sc-jnsZEx eobUac"><span></span>/calendar/buckets/{bucket}/slots/{event_id}/reservar</div></div></div></div></div></div></div></div><div id="tag/calendar/operation/calendar_buckets_slots_generar_create" data-section-id="tag/calendar/operation/calendar_buckets_slots_generar_create" class="sc-eDDNvO iUTsUN"><div data-section-id="operation/calendar_buckets_slots_generar_create" id="operation/calendar_buckets_slots_generar_create" class="sc-iAEyYj cmAaWK"><div class="sc-hLseeT hoYmkG"><h2 class="sc-qRumy bcNKdh"><a class="sc-csCMJq jSIqAu" href="#tag/calendar/operation/calendar_buckets_slots_generar_create" aria-label="tag/calendar/operation/calendar_buckets_slots_generar_create"></a>calendar_buckets_slots_generar_create<!-- --> </h2><div class="sc-iERabE dUdgLx"><div html="&lt;p&gt;POST /calendar/buckets/&lt;bucket&gt;/slots/generar&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Crea slots en calendario BD&lt;/li&gt;
+&lt;li&gt;Si bucket nuevo: crea calendario FINAL y lo guarda en tabla Bucket&lt;/li&gt;
+&lt;li&gt;Valida choques SOLO dentro del bucket&lt;/li&gt;
+&lt;li&gt;NUEVO: evita doble envío con lock por bucket&lt;/li&gt;
+&lt;/ul&gt;
+" class="sc-iKGpAq sc-cCYyou dXXcln dHaogz"><p>POST /calendar/buckets/<bucket>/slots/generar</p>
+<ul>
+<li>Crea slots en calendario BD</li>
+<li>Si bucket nuevo: crea calendario FINAL y lo guarda en tabla Bucket</li>
+<li>Valida choques SOLO dentro del bucket</li>
+<li>NUEVO: evita doble envío con lock por bucket</li>
+</ul>
+</div></div><div class="sc-ftWlEC pzAgN"><div class="sc-cYRmzp kuPPCO"><h5 class="sc-irTswZ sc-jOQpHb fA-dGxt qtYpT">Authorizations:</h5><svg class="sc-fbJfz eiOVYa" version="1.1" viewBox="0 0 24 24" x="0" xmlns="http://www.w3.org/2000/svg" y="0" aria-hidden="true"><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon></svg></div><div class="sc-jTsRVM gZngKQ"><span class="sc-dskThK ddMcul"><span class="sc-hNeXkj cLOXvd"><i>cookieAuth</i></span></span><span class="sc-dskThK ddMcul"><span class="sc-hNeXkj cLOXvd"><i>basicAuth</i></span></span><span class="sc-dskThK ddMcul">None</span></div></div><div><h5 class="sc-irTswZ fA-dGxt">path<!-- --> Parameters</h5><table class="sc-hIqOWV dybric"><tbody><tr class="last "><td kind="field" title="bucket" class="sc-hAtEya sc-fGFwA-d kddqHa eIujjv"><span class="sc-ieZDjf bEKmDE"></span><span class="property-name">bucket</span><div class="sc-gUrTyB sc-eKYjSU bPAaet boAHLn">required</div></td><td class="sc-blLsxE bmauLr"><div><div><span class="sc-gUrTyB sc-kZGvTq bPAaet UMvzF"></span><span class="sc-gUrTyB sc-iMfspz bPAaet fEQrHJ">string</span></div> <div><div html="" class="sc-iKGpAq sc-cCYyou dXXcln cFvDiF"></div></div></div></td></tr></tbody></table></div><div><h3 class="sc-fJjTez hsJdXF">Responses</h3><div><button class="sc-caslwi gQivdi" disabled=""><strong class="sc-fYaxgW jJkGwY">200<!-- --> </strong><div html="&lt;p&gt;No response body&lt;/p&gt;
+" class="sc-iKGpAq sc-cCYyou sc-cjERFZ dXXcln fTBBlJ dkmSdy"><p>No response body</p>
+</div></button></div></div></div><div class="sc-jTrPJt sc-gLDzao dVngAA fYLqku"><div class="sc-fYzRkH dHdMVa"><button class="sc-jYvNnh iWrBta"><span type="post" class="sc-eGFuAY ejslkd http-verb post">post</span><span class="sc-GJyyy dkiPkt">/calendar/buckets/{bucket}/slots/generar</span><svg class="sc-fbJfz ivEQut" style="margin-right:-25px" version="1.1" viewBox="0 0 24 24" x="0" xmlns="http://www.w3.org/2000/svg" y="0" aria-hidden="true"><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon></svg></button><div aria-hidden="true" class="sc-fnxdBX dplsyJ"><div class="sc-llcuoK cNCbuV"><div html="" class="sc-iKGpAq sc-cCYyou dXXcln cFvDiF"></div><div tabindex="0" role="button"><div class="sc-jnsZEx eobUac"><span></span>/calendar/buckets/{bucket}/slots/generar</div></div></div></div></div></div></div></div><div id="tag/calendar/operation/calendar_buckets_slots_libres_retrieve" data-section-id="tag/calendar/operation/calendar_buckets_slots_libres_retrieve" class="sc-eDDNvO iUTsUN"><div data-section-id="operation/calendar_buckets_slots_libres_retrieve" id="operation/calendar_buckets_slots_libres_retrieve" class="sc-iAEyYj cmAaWK"><div class="sc-hLseeT hoYmkG"><h2 class="sc-qRumy bcNKdh"><a class="sc-csCMJq jSIqAu" href="#tag/calendar/operation/calendar_buckets_slots_libres_retrieve" aria-label="tag/calendar/operation/calendar_buckets_slots_libres_retrieve"></a>calendar_buckets_slots_libres_retrieve<!-- --> </h2><div class="sc-iERabE dUdgLx"><div html="&lt;p&gt;GET /calendar/buckets/&lt;bucket&gt;/slots/libres
+?desde=YYYY-MM-DD&amp;amp;hasta=YYYY-MM-DD&amp;amp;limit=100
+&amp;amp;include_all=1  -&amp;gt; devuelve DISPONIBLE + RESERVADO (para calendario)&lt;/p&gt;
+" class="sc-iKGpAq sc-cCYyou dXXcln dHaogz"><p>GET /calendar/buckets/<bucket>/slots/libres
+?desde=YYYY-MM-DD&amp;hasta=YYYY-MM-DD&amp;limit=100
+&amp;include_all=1  -&gt; devuelve DISPONIBLE + RESERVADO (para calendario)</p>
+</div></div><div class="sc-ftWlEC pzAgN"><div class="sc-cYRmzp kuPPCO"><h5 class="sc-irTswZ sc-jOQpHb fA-dGxt qtYpT">Authorizations:</h5><svg class="sc-fbJfz eiOVYa" version="1.1" viewBox="0 0 24 24" x="0" xmlns="http://www.w3.org/2000/svg" y="0" aria-hidden="true"><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon></svg></div><div class="sc-jTsRVM gZngKQ"><span class="sc-dskThK ddMcul"><span class="sc-hNeXkj cLOXvd"><i>cookieAuth</i></span></span><span class="sc-dskThK ddMcul"><span class="sc-hNeXkj cLOXvd"><i>basicAuth</i></span></span><span class="sc-dskThK ddMcul">None</span></div></div><div><h5 class="sc-irTswZ fA-dGxt">path<!-- --> Parameters</h5><table class="sc-hIqOWV dybric"><tbody><tr class="last "><td kind="field" title="bucket" class="sc-hAtEya sc-fGFwA-d kddqHa eIujjv"><span class="sc-ieZDjf bEKmDE"></span><span class="property-name">bucket</span><div class="sc-gUrTyB sc-eKYjSU bPAaet boAHLn">required</div></td><td class="sc-blLsxE bmauLr"><div><div><span class="sc-gUrTyB sc-kZGvTq bPAaet UMvzF"></span><span class="sc-gUrTyB sc-iMfspz bPAaet fEQrHJ">string</span></div> <div><div html="" class="sc-iKGpAq sc-cCYyou dXXcln cFvDiF"></div></div></div></td></tr></tbody></table></div><div><h3 class="sc-fJjTez hsJdXF">Responses</h3><div><button class="sc-caslwi gQivdi" disabled=""><strong class="sc-fYaxgW jJkGwY">200<!-- --> </strong><div html="&lt;p&gt;No response body&lt;/p&gt;
+" class="sc-iKGpAq sc-cCYyou sc-cjERFZ dXXcln fTBBlJ dkmSdy"><p>No response body</p>
+</div></button></div></div></div><div class="sc-jTrPJt sc-gLDzao dVngAA fYLqku"><div class="sc-fYzRkH dHdMVa"><button class="sc-jYvNnh iWrBta"><span type="get" class="sc-eGFuAY kCsPwr http-verb get">get</span><span class="sc-GJyyy dkiPkt">/calendar/buckets/{bucket}/slots/libres</span><svg class="sc-fbJfz ivEQut" style="margin-right:-25px" version="1.1" viewBox="0 0 24 24" x="0" xmlns="http://www.w3.org/2000/svg" y="0" aria-hidden="true"><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon></svg></button><div aria-hidden="true" class="sc-fnxdBX dplsyJ"><div class="sc-llcuoK cNCbuV"><div html="" class="sc-iKGpAq sc-cCYyou dXXcln cFvDiF"></div><div tabindex="0" role="button"><div class="sc-jnsZEx eobUac"><span></span>/calendar/buckets/{bucket}/slots/libres</div></div></div></div></div></div></div></div><div id="tag/calendar/operation/calendar_buckets_google_retrieve" data-section-id="tag/calendar/operation/calendar_buckets_google_retrieve" class="sc-eDDNvO iUTsUN"><div data-section-id="operation/calendar_buckets_google_retrieve" id="operation/calendar_buckets_google_retrieve" class="sc-iAEyYj cmAaWK"><div class="sc-hLseeT hoYmkG"><h2 class="sc-qRumy bcNKdh"><a class="sc-csCMJq jSIqAu" href="#tag/calendar/operation/calendar_buckets_google_retrieve" aria-label="tag/calendar/operation/calendar_buckets_google_retrieve"></a>calendar_buckets_google_retrieve<!-- --> </h2><div class="sc-iERabE dUdgLx"><div html="&lt;p&gt;GET /calendar/buckets/google
+Escanea eventos del calendario BD en un rango razonable y extrae buckets únicos.&lt;/p&gt;
+" class="sc-iKGpAq sc-cCYyou dXXcln dHaogz"><p>GET /calendar/buckets/google
+Escanea eventos del calendario BD en un rango razonable y extrae buckets únicos.</p>
+</div></div><div class="sc-ftWlEC pzAgN"><div class="sc-cYRmzp kuPPCO"><h5 class="sc-irTswZ sc-jOQpHb fA-dGxt qtYpT">Authorizations:</h5><svg class="sc-fbJfz eiOVYa" version="1.1" viewBox="0 0 24 24" x="0" xmlns="http://www.w3.org/2000/svg" y="0" aria-hidden="true"><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon></svg></div><div class="sc-jTsRVM gZngKQ"><span class="sc-dskThK ddMcul"><span class="sc-hNeXkj cLOXvd"><i>cookieAuth</i></span></span><span class="sc-dskThK ddMcul"><span class="sc-hNeXkj cLOXvd"><i>basicAuth</i></span></span><span class="sc-dskThK ddMcul">None</span></div></div><div><h3 class="sc-fJjTez hsJdXF">Responses</h3><div><button class="sc-caslwi gQivdi" disabled=""><strong class="sc-fYaxgW jJkGwY">200<!-- --> </strong><div html="&lt;p&gt;No response body&lt;/p&gt;
+" class="sc-iKGpAq sc-cCYyou sc-cjERFZ dXXcln fTBBlJ dkmSdy"><p>No response body</p>
+</div></button></div></div></div><div class="sc-jTrPJt sc-gLDzao dVngAA fYLqku"><div class="sc-fYzRkH dHdMVa"><button class="sc-jYvNnh iWrBta"><span type="get" class="sc-eGFuAY kCsPwr http-verb get">get</span><span class="sc-GJyyy dkiPkt">/calendar/buckets/google</span><svg class="sc-fbJfz ivEQut" style="margin-right:-25px" version="1.1" viewBox="0 0 24 24" x="0" xmlns="http://www.w3.org/2000/svg" y="0" aria-hidden="true"><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon></svg></button><div aria-hidden="true" class="sc-fnxdBX dplsyJ"><div class="sc-llcuoK cNCbuV"><div html="" class="sc-iKGpAq sc-cCYyou dXXcln cFvDiF"></div><div tabindex="0" role="button"><div class="sc-jnsZEx eobUac"><span></span>/calendar/buckets/google</div></div></div></div></div></div></div></div><div id="tag/calendar/operation/calendar_buckets_sincronizar_create" data-section-id="tag/calendar/operation/calendar_buckets_sincronizar_create" class="sc-eDDNvO iUTsUN"><div data-section-id="operation/calendar_buckets_sincronizar_create" id="operation/calendar_buckets_sincronizar_create" class="sc-iAEyYj cmAaWK"><div class="sc-hLseeT hoYmkG"><h2 class="sc-qRumy bcNKdh"><a class="sc-csCMJq jSIqAu" href="#tag/calendar/operation/calendar_buckets_sincronizar_create" aria-label="tag/calendar/operation/calendar_buckets_sincronizar_create"></a>calendar_buckets_sincronizar_create<!-- --> </h2><div class="sc-iERabE dUdgLx"><div html="&lt;p&gt;POST /calendar/buckets/sincronizar&lt;/p&gt;
+&lt;p&gt;QUÉ HACE:
+  Sincroniza tabla Django (Bucket) con Google Calendar BD.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Lee TODOS los eventos de Google BD&lt;/li&gt;
+&lt;li&gt;Extrae buckets únicos presentes&lt;/li&gt;
+&lt;li&gt;Elimina registros de tabla que ya no tienen eventos (&amp;quot;buckets fantasma&amp;quot;)&lt;/li&gt;
+&lt;li&gt;Mantiene tabla actualizada después de limpiezas&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;ENDPOINT: POST /calendar/buckets/sincronizar&lt;/p&gt;
+&lt;p&gt;BODY:
+  {} // no requiere parámetros&lt;/p&gt;
+&lt;p&gt;RESPUESTA:
+  {
+    &amp;quot;synced_at&amp;quot;: &amp;quot;2026-02-06T...&amp;quot;,
+    &amp;quot;buckets_in_google&amp;quot;: [&amp;quot;medico&amp;quot;, &amp;quot;peluqueria&amp;quot;],
+    &amp;quot;deleted_from_table&amp;quot;: [&amp;quot;viejo_bucket&amp;quot;],
+    &amp;quot;deleted_count&amp;quot;: 1,
+    &amp;quot;message&amp;quot;: &amp;quot;Tabla sincronizada. Se eliminaron 1 bucket(s) sin eventos.&amp;quot;
+  }&lt;/p&gt;
+&lt;p&gt;FLUJO RECOMENDADO:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Limpias eventos con /calendar/calendars/limpiar&lt;/li&gt;
+&lt;li&gt;Llamas /calendar/buckets/sincronizar&lt;/li&gt;
+&lt;li&gt;Tabla se actualiza automáticamente&lt;/li&gt;
+&lt;li&gt;UI carga buckets con /calendar/buckets/tabla (siempre correcto)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;PROBLEMA QUE SOLUCIONA:
+  Sin esto: Borras eventos en Google pero tabla Bucket sigue teniéndolos
+            → UI muestra buckets &amp;quot;fantasma&amp;quot; sin eventos
+  Con esto: Tabla siempre refleja realidad de Google&lt;/p&gt;
+" class="sc-iKGpAq sc-cCYyou dXXcln dHaogz"><p>POST /calendar/buckets/sincronizar</p>
+<p>QUÉ HACE:
+  Sincroniza tabla Django (Bucket) con Google Calendar BD.</p>
+<ul>
+<li>Lee TODOS los eventos de Google BD</li>
+<li>Extrae buckets únicos presentes</li>
+<li>Elimina registros de tabla que ya no tienen eventos (&quot;buckets fantasma&quot;)</li>
+<li>Mantiene tabla actualizada después de limpiezas</li>
+</ul>
+<p>ENDPOINT: POST /calendar/buckets/sincronizar</p>
+<p>BODY:
+  {} // no requiere parámetros</p>
+<p>RESPUESTA:
+  {
+    &quot;synced_at&quot;: &quot;2026-02-06T...&quot;,
+    &quot;buckets_in_google&quot;: [&quot;medico&quot;, &quot;peluqueria&quot;],
+    &quot;deleted_from_table&quot;: [&quot;viejo_bucket&quot;],
+    &quot;deleted_count&quot;: 1,
+    &quot;message&quot;: &quot;Tabla sincronizada. Se eliminaron 1 bucket(s) sin eventos.&quot;
+  }</p>
+<p>FLUJO RECOMENDADO:</p>
+<ol>
+<li>Limpias eventos con /calendar/calendars/limpiar</li>
+<li>Llamas /calendar/buckets/sincronizar</li>
+<li>Tabla se actualiza automáticamente</li>
+<li>UI carga buckets con /calendar/buckets/tabla (siempre correcto)</li>
+</ol>
+<p>PROBLEMA QUE SOLUCIONA:
+  Sin esto: Borras eventos en Google pero tabla Bucket sigue teniéndolos
+            → UI muestra buckets &quot;fantasma&quot; sin eventos
+  Con esto: Tabla siempre refleja realidad de Google</p>
+</div></div><div class="sc-ftWlEC pzAgN"><div class="sc-cYRmzp kuPPCO"><h5 class="sc-irTswZ sc-jOQpHb fA-dGxt qtYpT">Authorizations:</h5><svg class="sc-fbJfz eiOVYa" version="1.1" viewBox="0 0 24 24" x="0" xmlns="http://www.w3.org/2000/svg" y="0" aria-hidden="true"><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon></svg></div><div class="sc-jTsRVM gZngKQ"><span class="sc-dskThK ddMcul"><span class="sc-hNeXkj cLOXvd"><i>cookieAuth</i></span></span><span class="sc-dskThK ddMcul"><span class="sc-hNeXkj cLOXvd"><i>basicAuth</i></span></span><span class="sc-dskThK ddMcul">None</span></div></div><div><h3 class="sc-fJjTez hsJdXF">Responses</h3><div><button class="sc-caslwi gQivdi" disabled=""><strong class="sc-fYaxgW jJkGwY">200<!-- --> </strong><div html="&lt;p&gt;No response body&lt;/p&gt;
+" class="sc-iKGpAq sc-cCYyou sc-cjERFZ dXXcln fTBBlJ dkmSdy"><p>No response body</p>
+</div></button></div></div></div><div class="sc-jTrPJt sc-gLDzao dVngAA fYLqku"><div class="sc-fYzRkH dHdMVa"><button class="sc-jYvNnh iWrBta"><span type="post" class="sc-eGFuAY ejslkd http-verb post">post</span><span class="sc-GJyyy dkiPkt">/calendar/buckets/sincronizar</span><svg class="sc-fbJfz ivEQut" style="margin-right:-25px" version="1.1" viewBox="0 0 24 24" x="0" xmlns="http://www.w3.org/2000/svg" y="0" aria-hidden="true"><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon></svg></button><div aria-hidden="true" class="sc-fnxdBX dplsyJ"><div class="sc-llcuoK cNCbuV"><div html="" class="sc-iKGpAq sc-cCYyou dXXcln cFvDiF"></div><div tabindex="0" role="button"><div class="sc-jnsZEx eobUac"><span></span>/calendar/buckets/sincronizar</div></div></div></div></div></div></div></div><div id="tag/calendar/operation/calendar_buckets_tabla_retrieve" data-section-id="tag/calendar/operation/calendar_buckets_tabla_retrieve" class="sc-eDDNvO iUTsUN"><div data-section-id="operation/calendar_buckets_tabla_retrieve" id="operation/calendar_buckets_tabla_retrieve" class="sc-iAEyYj cmAaWK"><div class="sc-hLseeT hoYmkG"><h2 class="sc-qRumy bcNKdh"><a class="sc-csCMJq jSIqAu" href="#tag/calendar/operation/calendar_buckets_tabla_retrieve" aria-label="tag/calendar/operation/calendar_buckets_tabla_retrieve"></a>calendar_buckets_tabla_retrieve<!-- --> </h2><div class="sc-iERabE dUdgLx"><div html="&lt;p&gt;GET /calendar/buckets/tabla&lt;/p&gt;
+" class="sc-iKGpAq sc-cCYyou dXXcln dHaogz"><p>GET /calendar/buckets/tabla</p>
+</div></div><div class="sc-ftWlEC pzAgN"><div class="sc-cYRmzp kuPPCO"><h5 class="sc-irTswZ sc-jOQpHb fA-dGxt qtYpT">Authorizations:</h5><svg class="sc-fbJfz eiOVYa" version="1.1" viewBox="0 0 24 24" x="0" xmlns="http://www.w3.org/2000/svg" y="0" aria-hidden="true"><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon></svg></div><div class="sc-jTsRVM gZngKQ"><span class="sc-dskThK ddMcul"><span class="sc-hNeXkj cLOXvd"><i>cookieAuth</i></span></span><span class="sc-dskThK ddMcul"><span class="sc-hNeXkj cLOXvd"><i>basicAuth</i></span></span><span class="sc-dskThK ddMcul">None</span></div></div><div><h3 class="sc-fJjTez hsJdXF">Responses</h3><div><button class="sc-caslwi gQivdi" disabled=""><strong class="sc-fYaxgW jJkGwY">200<!-- --> </strong><div html="&lt;p&gt;No response body&lt;/p&gt;
+" class="sc-iKGpAq sc-cCYyou sc-cjERFZ dXXcln fTBBlJ dkmSdy"><p>No response body</p>
+</div></button></div></div></div><div class="sc-jTrPJt sc-gLDzao dVngAA fYLqku"><div class="sc-fYzRkH dHdMVa"><button class="sc-jYvNnh iWrBta"><span type="get" class="sc-eGFuAY kCsPwr http-verb get">get</span><span class="sc-GJyyy dkiPkt">/calendar/buckets/tabla</span><svg class="sc-fbJfz ivEQut" style="margin-right:-25px" version="1.1" viewBox="0 0 24 24" x="0" xmlns="http://www.w3.org/2000/svg" y="0" aria-hidden="true"><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon></svg></button><div aria-hidden="true" class="sc-fnxdBX dplsyJ"><div class="sc-llcuoK cNCbuV"><div html="" class="sc-iKGpAq sc-cCYyou dXXcln cFvDiF"></div><div tabindex="0" role="button"><div class="sc-jnsZEx eobUac"><span></span>/calendar/buckets/tabla</div></div></div></div></div></div></div></div><div id="tag/calendar/operation/calendar_calendars_limpiar_create" data-section-id="tag/calendar/operation/calendar_calendars_limpiar_create" class="sc-eDDNvO iUTsUN"><div data-section-id="operation/calendar_calendars_limpiar_create" id="operation/calendar_calendars_limpiar_create" class="sc-iAEyYj cmAaWK"><div class="sc-hLseeT hoYmkG"><h2 class="sc-qRumy bcNKdh"><a class="sc-csCMJq jSIqAu" href="#tag/calendar/operation/calendar_calendars_limpiar_create" aria-label="tag/calendar/operation/calendar_calendars_limpiar_create"></a>calendar_calendars_limpiar_create<!-- --> </h2><div class="sc-iERabE dUdgLx"><div html="&lt;p&gt;POST /calendar/calendars/limpiar&lt;/p&gt;
+&lt;p&gt;QUÉ HACE:
+  Elimina TODOS los eventos de un calendario Google por ID.
+  Sin especificar rango → borra TODO.
+  Con rango → borra solo ese período.&lt;/p&gt;
+&lt;p&gt;ENDPOINT: POST /calendar/calendars/limpiar&lt;/p&gt;
+&lt;p&gt;BODY EJEMPLO:
+  {
+    &amp;quot;calendar_id&amp;quot;: &amp;quot;&lt;a href=&quot;mailto:&amp;#x74;&amp;#x75;&amp;#95;&amp;#101;&amp;#x6d;&amp;#x61;&amp;#105;&amp;#x6c;&amp;#64;&amp;#103;&amp;#109;&amp;#x61;&amp;#105;&amp;#108;&amp;#46;&amp;#99;&amp;#111;&amp;#x6d;&quot;&gt;&amp;#x74;&amp;#x75;&amp;#95;&amp;#101;&amp;#x6d;&amp;#x61;&amp;#105;&amp;#x6c;&amp;#64;&amp;#103;&amp;#109;&amp;#x61;&amp;#105;&amp;#108;&amp;#46;&amp;#99;&amp;#111;&amp;#x6d;&lt;/a&gt;&amp;quot;,
+    &amp;quot;range_start_date&amp;quot;: &amp;quot;2026-01-01&amp;quot;,  // opcional
+    &amp;quot;range_end_date&amp;quot;: &amp;quot;2026-12-31&amp;quot;     // opcional
+  }&lt;/p&gt;
+&lt;p&gt;RESPUESTA:
+  {
+    &amp;quot;calendar_id&amp;quot;: &amp;quot;...&amp;quot;,
+    &amp;quot;deleted_count&amp;quot;: 150,
+    &amp;quot;sample_deleted_ids&amp;quot;: [&amp;quot;id1&amp;quot;, &amp;quot;id2&amp;quot;, ...],
+    &amp;quot;range&amp;quot;: {&amp;quot;from&amp;quot;: &amp;quot;...&amp;quot;, &amp;quot;to&amp;quot;: &amp;quot;...&amp;quot;}
+  }&lt;/p&gt;
+&lt;p&gt;CASO DE USO:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Limpiar calendario de pruebas rápidamente&lt;/li&gt;
+&lt;li&gt;Después llamar a /calendar/buckets/sincronizar para actualizar tabla&lt;/li&gt;
+&lt;/ul&gt;
+" class="sc-iKGpAq sc-cCYyou dXXcln dHaogz"><p>POST /calendar/calendars/limpiar</p>
+<p>QUÉ HACE:
+  Elimina TODOS los eventos de un calendario Google por ID.
+  Sin especificar rango → borra TODO.
+  Con rango → borra solo ese período.</p>
+<p>ENDPOINT: POST /calendar/calendars/limpiar</p>
+<p>BODY EJEMPLO:
+  {
+    &quot;calendar_id&quot;: &quot;<a href="mailto:&#x74;&#x75;&#95;&#101;&#x6d;&#x61;&#105;&#x6c;&#64;&#103;&#109;&#x61;&#105;&#108;&#46;&#99;&#111;&#x6d;">&#x74;&#x75;&#95;&#101;&#x6d;&#x61;&#105;&#x6c;&#64;&#103;&#109;&#x61;&#105;&#108;&#46;&#99;&#111;&#x6d;</a>&quot;,
+    &quot;range_start_date&quot;: &quot;2026-01-01&quot;,  // opcional
+    &quot;range_end_date&quot;: &quot;2026-12-31&quot;     // opcional
+  }</p>
+<p>RESPUESTA:
+  {
+    &quot;calendar_id&quot;: &quot;...&quot;,
+    &quot;deleted_count&quot;: 150,
+    &quot;sample_deleted_ids&quot;: [&quot;id1&quot;, &quot;id2&quot;, ...],
+    &quot;range&quot;: {&quot;from&quot;: &quot;...&quot;, &quot;to&quot;: &quot;...&quot;}
+  }</p>
+<p>CASO DE USO:</p>
+<ul>
+<li>Limpiar calendario de pruebas rápidamente</li>
+<li>Después llamar a /calendar/buckets/sincronizar para actualizar tabla</li>
+</ul>
+</div></div><div class="sc-ftWlEC pzAgN"><div class="sc-cYRmzp kuPPCO"><h5 class="sc-irTswZ sc-jOQpHb fA-dGxt qtYpT">Authorizations:</h5><svg class="sc-fbJfz eiOVYa" version="1.1" viewBox="0 0 24 24" x="0" xmlns="http://www.w3.org/2000/svg" y="0" aria-hidden="true"><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon></svg></div><div class="sc-jTsRVM gZngKQ"><span class="sc-dskThK ddMcul"><span class="sc-hNeXkj cLOXvd"><i>cookieAuth</i></span></span><span class="sc-dskThK ddMcul"><span class="sc-hNeXkj cLOXvd"><i>basicAuth</i></span></span><span class="sc-dskThK ddMcul">None</span></div></div><div><h3 class="sc-fJjTez hsJdXF">Responses</h3><div><button class="sc-caslwi gQivdi" disabled=""><strong class="sc-fYaxgW jJkGwY">200<!-- --> </strong><div html="&lt;p&gt;No response body&lt;/p&gt;
+" class="sc-iKGpAq sc-cCYyou sc-cjERFZ dXXcln fTBBlJ dkmSdy"><p>No response body</p>
+</div></button></div></div></div><div class="sc-jTrPJt sc-gLDzao dVngAA fYLqku"><div class="sc-fYzRkH dHdMVa"><button class="sc-jYvNnh iWrBta"><span type="post" class="sc-eGFuAY ejslkd http-verb post">post</span><span class="sc-GJyyy dkiPkt">/calendar/calendars/limpiar</span><svg class="sc-fbJfz ivEQut" style="margin-right:-25px" version="1.1" viewBox="0 0 24 24" x="0" xmlns="http://www.w3.org/2000/svg" y="0" aria-hidden="true"><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon></svg></button><div aria-hidden="true" class="sc-fnxdBX dplsyJ"><div class="sc-llcuoK cNCbuV"><div html="" class="sc-iKGpAq sc-cCYyou dXXcln cFvDiF"></div><div tabindex="0" role="button"><div class="sc-jnsZEx eobUac"><span></span>/calendar/calendars/limpiar</div></div></div></div></div></div></div></div><div id="tag/calendar/operation/calendar_calendars_limpiar_bucket_create" data-section-id="tag/calendar/operation/calendar_calendars_limpiar_bucket_create" class="sc-eDDNvO iUTsUN"><div data-section-id="operation/calendar_calendars_limpiar_bucket_create" id="operation/calendar_calendars_limpiar_bucket_create" class="sc-iAEyYj cmAaWK"><div class="sc-hLseeT hoYmkG"><h2 class="sc-qRumy bcNKdh"><a class="sc-csCMJq jSIqAu" href="#tag/calendar/operation/calendar_calendars_limpiar_bucket_create" aria-label="tag/calendar/operation/calendar_calendars_limpiar_bucket_create"></a>calendar_calendars_limpiar_bucket_create<!-- --> </h2><div class="sc-iERabE dUdgLx"><div html="&lt;p&gt;POST /calendar/calendars/limpiar-bucket&lt;/p&gt;
+&lt;p&gt;QUÉ HACE:
+  Elimina SOLO eventos de un BUCKET específico en un calendario.
+  Los eventos se identifican por el field &amp;quot;bucket&amp;quot; en description/properties.
+  Muy útil para limpiar solo un servicio sin tocar otros.&lt;/p&gt;
+&lt;p&gt;ENDPOINT: POST /calendar/calendars/limpiar-bucket&lt;/p&gt;
+&lt;p&gt;BODY EJEMPLO:
+  {
+    &amp;quot;calendar_id&amp;quot;: &amp;quot;&lt;a href=&quot;mailto:&amp;#116;&amp;#x75;&amp;#95;&amp;#101;&amp;#109;&amp;#97;&amp;#105;&amp;#x6c;&amp;#x40;&amp;#103;&amp;#109;&amp;#97;&amp;#x69;&amp;#x6c;&amp;#46;&amp;#x63;&amp;#111;&amp;#109;&quot;&gt;&amp;#116;&amp;#x75;&amp;#95;&amp;#101;&amp;#109;&amp;#97;&amp;#105;&amp;#x6c;&amp;#x40;&amp;#103;&amp;#109;&amp;#97;&amp;#x69;&amp;#x6c;&amp;#46;&amp;#x63;&amp;#111;&amp;#109;&lt;/a&gt;&amp;quot;,
+    &amp;quot;bucket&amp;quot;: &amp;quot;medico&amp;quot;,  // normalizado a minúsculas
+    &amp;quot;range_start_date&amp;quot;: &amp;quot;2026-01-01&amp;quot;,  // opcional
+    &amp;quot;range_end_date&amp;quot;: &amp;quot;2026-12-31&amp;quot;     // opcional
+  }&lt;/p&gt;
+&lt;p&gt;RESPUESTA:
+  {
+    &amp;quot;calendar_id&amp;quot;: &amp;quot;...&amp;quot;,
+    &amp;quot;bucket&amp;quot;: &amp;quot;medico&amp;quot;,
+    &amp;quot;deleted_count&amp;quot;: 50,
+    &amp;quot;sample_deleted_ids&amp;quot;: [&amp;quot;id1&amp;quot;, &amp;quot;id2&amp;quot;, ...],
+    &amp;quot;range&amp;quot;: {&amp;quot;from&amp;quot;: &amp;quot;...&amp;quot;, &amp;quot;to&amp;quot;: &amp;quot;...&amp;quot;}
+  }&lt;/p&gt;
+&lt;p&gt;FLUJO COMPLETO:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Usuario crea slots para &amp;quot;medico&amp;quot; y &amp;quot;peluqueria&amp;quot;&lt;/li&gt;
+&lt;li&gt;Quiere limpiar solo &amp;quot;medico&amp;quot; (mantiene &amp;quot;peluqueria&amp;quot;)&lt;/li&gt;
+&lt;li&gt;Llama este endpoint con bucket=&amp;quot;medico&amp;quot;&lt;/li&gt;
+&lt;li&gt;Borra solo eventos con bucket=medico&lt;/li&gt;
+&lt;li&gt;Luego llama /calendar/buckets/sincronizar para actualizar tabla&lt;/li&gt;
+&lt;/ol&gt;
+" class="sc-iKGpAq sc-cCYyou dXXcln dHaogz"><p>POST /calendar/calendars/limpiar-bucket</p>
+<p>QUÉ HACE:
+  Elimina SOLO eventos de un BUCKET específico en un calendario.
+  Los eventos se identifican por el field &quot;bucket&quot; en description/properties.
+  Muy útil para limpiar solo un servicio sin tocar otros.</p>
+<p>ENDPOINT: POST /calendar/calendars/limpiar-bucket</p>
+<p>BODY EJEMPLO:
+  {
+    &quot;calendar_id&quot;: &quot;<a href="mailto:&#116;&#x75;&#95;&#101;&#109;&#97;&#105;&#x6c;&#x40;&#103;&#109;&#97;&#x69;&#x6c;&#46;&#x63;&#111;&#109;">&#116;&#x75;&#95;&#101;&#109;&#97;&#105;&#x6c;&#x40;&#103;&#109;&#97;&#x69;&#x6c;&#46;&#x63;&#111;&#109;</a>&quot;,
+    &quot;bucket&quot;: &quot;medico&quot;,  // normalizado a minúsculas
+    &quot;range_start_date&quot;: &quot;2026-01-01&quot;,  // opcional
+    &quot;range_end_date&quot;: &quot;2026-12-31&quot;     // opcional
+  }</p>
+<p>RESPUESTA:
+  {
+    &quot;calendar_id&quot;: &quot;...&quot;,
+    &quot;bucket&quot;: &quot;medico&quot;,
+    &quot;deleted_count&quot;: 50,
+    &quot;sample_deleted_ids&quot;: [&quot;id1&quot;, &quot;id2&quot;, ...],
+    &quot;range&quot;: {&quot;from&quot;: &quot;...&quot;, &quot;to&quot;: &quot;...&quot;}
+  }</p>
+<p>FLUJO COMPLETO:</p>
+<ol>
+<li>Usuario crea slots para &quot;medico&quot; y &quot;peluqueria&quot;</li>
+<li>Quiere limpiar solo &quot;medico&quot; (mantiene &quot;peluqueria&quot;)</li>
+<li>Llama este endpoint con bucket=&quot;medico&quot;</li>
+<li>Borra solo eventos con bucket=medico</li>
+<li>Luego llama /calendar/buckets/sincronizar para actualizar tabla</li>
+</ol>
+</div></div><div class="sc-ftWlEC pzAgN"><div class="sc-cYRmzp kuPPCO"><h5 class="sc-irTswZ sc-jOQpHb fA-dGxt qtYpT">Authorizations:</h5><svg class="sc-fbJfz eiOVYa" version="1.1" viewBox="0 0 24 24" x="0" xmlns="http://www.w3.org/2000/svg" y="0" aria-hidden="true"><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon></svg></div><div class="sc-jTsRVM gZngKQ"><span class="sc-dskThK ddMcul"><span class="sc-hNeXkj cLOXvd"><i>cookieAuth</i></span></span><span class="sc-dskThK ddMcul"><span class="sc-hNeXkj cLOXvd"><i>basicAuth</i></span></span><span class="sc-dskThK ddMcul">None</span></div></div><div><h3 class="sc-fJjTez hsJdXF">Responses</h3><div><button class="sc-caslwi gQivdi" disabled=""><strong class="sc-fYaxgW jJkGwY">200<!-- --> </strong><div html="&lt;p&gt;No response body&lt;/p&gt;
+" class="sc-iKGpAq sc-cCYyou sc-cjERFZ dXXcln fTBBlJ dkmSdy"><p>No response body</p>
+</div></button></div></div></div><div class="sc-jTrPJt sc-gLDzao dVngAA fYLqku"><div class="sc-fYzRkH dHdMVa"><button class="sc-jYvNnh iWrBta"><span type="post" class="sc-eGFuAY ejslkd http-verb post">post</span><span class="sc-GJyyy dkiPkt">/calendar/calendars/limpiar-bucket</span><svg class="sc-fbJfz ivEQut" style="margin-right:-25px" version="1.1" viewBox="0 0 24 24" x="0" xmlns="http://www.w3.org/2000/svg" y="0" aria-hidden="true"><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon></svg></button><div aria-hidden="true" class="sc-fnxdBX dplsyJ"><div class="sc-llcuoK cNCbuV"><div html="" class="sc-iKGpAq sc-cCYyou dXXcln cFvDiF"></div><div tabindex="0" role="button"><div class="sc-jnsZEx eobUac"><span></span>/calendar/calendars/limpiar-bucket</div></div></div></div></div></div></div></div></div><div class="sc-emEvRt jYOHCb"></div></div></div>
+      <script>
+      const __redoc_state = {"menu":{"activeItemIdx":-1},"spec":{"data":{"openapi":"3.0.3","info":{"title":"API Turnero","version":"1.0.0","description":"Documentación de la API"},"paths":{"/calendar/buckets/{bucket}/slots/{event_id}/reservar":{"post":{"operationId":"calendar_buckets_slots_reservar_create","description":"POST /calendar/buckets/<bucket>/slots/<event_id>/reservar\n- valida que event_id pertenezca al bucket (NO confiar en el bot)\n- cambia slot en BD a RESERVADO (sin borrarlo)\n- crea evento confirmado en calendario FINAL del bucket (notificaciones)","parameters":[{"in":"path","name":"bucket","schema":{"type":"string"},"required":true},{"in":"path","name":"event_id","schema":{"type":"string"},"required":true}],"tags":["calendar"],"security":[{"cookieAuth":[]},{"basicAuth":[]},{}],"responses":{"200":{"description":"No response body"}}}},"/calendar/buckets/{bucket}/slots/generar":{"post":{"operationId":"calendar_buckets_slots_generar_create","description":"POST /calendar/buckets/<bucket>/slots/generar\n- Crea slots en calendario BD\n- Si bucket nuevo: crea calendario FINAL y lo guarda en tabla Bucket\n- Valida choques SOLO dentro del bucket\n- NUEVO: evita doble envío con lock por bucket","parameters":[{"in":"path","name":"bucket","schema":{"type":"string"},"required":true}],"tags":["calendar"],"security":[{"cookieAuth":[]},{"basicAuth":[]},{}],"responses":{"200":{"description":"No response body"}}}},"/calendar/buckets/{bucket}/slots/libres":{"get":{"operationId":"calendar_buckets_slots_libres_retrieve","description":"GET /calendar/buckets/<bucket>/slots/libres\n?desde=YYYY-MM-DD&hasta=YYYY-MM-DD&limit=100\n&include_all=1  -> devuelve DISPONIBLE + RESERVADO (para calendario)","parameters":[{"in":"path","name":"bucket","schema":{"type":"string"},"required":true}],"tags":["calendar"],"security":[{"cookieAuth":[]},{"basicAuth":[]},{}],"responses":{"200":{"description":"No response body"}}}},"/calendar/buckets/google":{"get":{"operationId":"calendar_buckets_google_retrieve","description":"GET /calendar/buckets/google\nEscanea eventos del calendario BD en un rango razonable y extrae buckets únicos.","tags":["calendar"],"security":[{"cookieAuth":[]},{"basicAuth":[]},{}],"responses":{"200":{"description":"No response body"}}}},"/calendar/buckets/sincronizar":{"post":{"operationId":"calendar_buckets_sincronizar_create","description":"POST /calendar/buckets/sincronizar\n\nQUÉ HACE:\n  Sincroniza tabla Django (Bucket) con Google Calendar BD.\n  - Lee TODOS los eventos de Google BD\n  - Extrae buckets únicos presentes\n  - Elimina registros de tabla que ya no tienen eventos (\"buckets fantasma\")\n  - Mantiene tabla actualizada después de limpiezas\n\nENDPOINT: POST /calendar/buckets/sincronizar\n\nBODY:\n  {} // no requiere parámetros\n\nRESPUESTA:\n  {\n    \"synced_at\": \"2026-02-06T...\",\n    \"buckets_in_google\": [\"medico\", \"peluqueria\"],\n    \"deleted_from_table\": [\"viejo_bucket\"],\n    \"deleted_count\": 1,\n    \"message\": \"Tabla sincronizada. Se eliminaron 1 bucket(s) sin eventos.\"\n  }\n\nFLUJO RECOMENDADO:\n  1. Limpias eventos con /calendar/calendars/limpiar\n  2. Llamas /calendar/buckets/sincronizar\n  3. Tabla se actualiza automáticamente\n  4. UI carga buckets con /calendar/buckets/tabla (siempre correcto)\n\nPROBLEMA QUE SOLUCIONA:\n  Sin esto: Borras eventos en Google pero tabla Bucket sigue teniéndolos\n            → UI muestra buckets \"fantasma\" sin eventos\n  Con esto: Tabla siempre refleja realidad de Google","tags":["calendar"],"security":[{"cookieAuth":[]},{"basicAuth":[]},{}],"responses":{"200":{"description":"No response body"}}}},"/calendar/buckets/tabla":{"get":{"operationId":"calendar_buckets_tabla_retrieve","description":"GET /calendar/buckets/tabla","tags":["calendar"],"security":[{"cookieAuth":[]},{"basicAuth":[]},{}],"responses":{"200":{"description":"No response body"}}}},"/calendar/calendars/limpiar":{"post":{"operationId":"calendar_calendars_limpiar_create","description":"POST /calendar/calendars/limpiar\n\nQUÉ HACE:\n  Elimina TODOS los eventos de un calendario Google por ID.\n  Sin especificar rango → borra TODO.\n  Con rango → borra solo ese período.\n\nENDPOINT: POST /calendar/calendars/limpiar\n\nBODY EJEMPLO:\n  {\n    \"calendar_id\": \"tu_email@gmail.com\",\n    \"range_start_date\": \"2026-01-01\",  // opcional\n    \"range_end_date\": \"2026-12-31\"     // opcional\n  }\n\nRESPUESTA:\n  {\n    \"calendar_id\": \"...\",\n    \"deleted_count\": 150,\n    \"sample_deleted_ids\": [\"id1\", \"id2\", ...],\n    \"range\": {\"from\": \"...\", \"to\": \"...\"}\n  }\n\nCASO DE USO:\n  - Limpiar calendario de pruebas rápidamente\n  - Después llamar a /calendar/buckets/sincronizar para actualizar tabla","tags":["calendar"],"security":[{"cookieAuth":[]},{"basicAuth":[]},{}],"responses":{"200":{"description":"No response body"}}}},"/calendar/calendars/limpiar-bucket":{"post":{"operationId":"calendar_calendars_limpiar_bucket_create","description":"POST /calendar/calendars/limpiar-bucket\n\nQUÉ HACE:\n  Elimina SOLO eventos de un BUCKET específico en un calendario.\n  Los eventos se identifican por el field \"bucket\" en description/properties.\n  Muy útil para limpiar solo un servicio sin tocar otros.\n\nENDPOINT: POST /calendar/calendars/limpiar-bucket\n\nBODY EJEMPLO:\n  {\n    \"calendar_id\": \"tu_email@gmail.com\",\n    \"bucket\": \"medico\",  // normalizado a minúsculas\n    \"range_start_date\": \"2026-01-01\",  // opcional\n    \"range_end_date\": \"2026-12-31\"     // opcional\n  }\n\nRESPUESTA:\n  {\n    \"calendar_id\": \"...\",\n    \"bucket\": \"medico\",\n    \"deleted_count\": 50,\n    \"sample_deleted_ids\": [\"id1\", \"id2\", ...],\n    \"range\": {\"from\": \"...\", \"to\": \"...\"}\n  }\n\nFLUJO COMPLETO:\n  1. Usuario crea slots para \"medico\" y \"peluqueria\"\n  2. Quiere limpiar solo \"medico\" (mantiene \"peluqueria\")\n  3. Llama este endpoint con bucket=\"medico\"\n  4. Borra solo eventos con bucket=medico\n  5. Luego llama /calendar/buckets/sincronizar para actualizar tabla","tags":["calendar"],"security":[{"cookieAuth":[]},{"basicAuth":[]},{}],"responses":{"200":{"description":"No response body"}}}}},"components":{"securitySchemes":{"basicAuth":{"type":"http","scheme":"basic"},"cookieAuth":{"type":"apiKey","in":"cookie","name":"sessionid"}}}}},"searchIndex":{"store":["tag/calendar","tag/calendar/operation/calendar_buckets_slots_reservar_create","tag/calendar/operation/calendar_buckets_slots_generar_create","tag/calendar/operation/calendar_buckets_slots_libres_retrieve","tag/calendar/operation/calendar_buckets_google_retrieve","tag/calendar/operation/calendar_buckets_sincronizar_create","tag/calendar/operation/calendar_buckets_tabla_retrieve","tag/calendar/operation/calendar_calendars_limpiar_create","tag/calendar/operation/calendar_calendars_limpiar_bucket_create"],"index":{"version":"2.3.9","fields":["title","description"],"fieldVectors":[["title/0",[0,1.386]],["description/0",[]],["title/1",[1,1.897]],["description/1",[2,0.679,3,2.155,4,0.722,5,1.575,6,1.575,7,2.155,8,2.155,9,2.155,10,0.896,11,2.155,12,1.002,13,1.575,14,2.155,15,2.155,16,1.192,17,0.907,18,1.575,19,0.907,20,2.155,21,1.192,22,0.679,23,2.155,24,0.489,25,1.575,26,1.192,27,2.155,28,2.155]],["title/2",[29,1.897]],["description/2",[2,0.64,4,0.75,5,1.483,10,1.04,12,0.861,16,1.123,17,0.854,21,1.511,24,0.62,25,1.483,26,1.123,30,2.03,31,2.03,32,2.731,33,1.123,34,0.854,35,2.03,36,0.854,37,2.03,38,1.123,39,2.03,40,2.03,41,2.03,42,2.03,43,0.854,44,2.03,45,1.123,46,2.03]],["title/3",[47,1.897]],["description/3",[4,0.752,18,2.008,24,0.624,48,2.748,49,2.748,50,2.748,51,2.748,52,2.748,53,1.521,54,2.748]],["title/4",[55,1.897]],["description/4",[10,0.823,12,0.823,17,1.099,22,0.823,24,0.593,26,1.445,33,1.445,56,3.212,57,2.611,58,1.445,59,1.908,60,2.611,61,1.908,62,1.908]],["title/5",[63,1.897]],["description/5",[0,0.805,2,0.549,4,0.724,6,1.274,10,0.898,12,0.347,17,0.734,19,0.911,22,0.898,34,0.464,36,1.256,43,1.035,61,0.805,62,0.805,64,1.361,65,0.61,66,0.61,67,1.102,68,1.102,69,1.797,70,1.102,71,0.805,72,1.361,73,1.102,74,0.61,75,1.102,76,1.102,77,1.102,78,1.743,79,0.805,80,1.102,81,0.805,82,1.102,83,0.61,84,0.61,85,1.102,86,1.102,87,0.61,88,1.102,89,1.102,90,1.102,91,0.805,92,0.805,93,1.102,94,1.102,95,0.61,96,1.581,97,1.102,98,1.102,99,1.274,100,1.102,101,1.102,102,0.805,103,1.102,104,1.102,105,0.805,106,0.805,107,0.805,108,0.805,109,1.102,110,1.102,111,0.805,112,1.743,113,1.102,114,0.805,115,1.743,116,1.102,117,1.102,118,1.102,119,1.743,120,0.61,121,1.102,122,1.102,123,1.102,124,1.102,125,1.102,126,1.102]],["title/6",[127,1.897]],["description/6",[114,2.607]],["title/7",[128,1.897]],["description/7",[2,0.694,4,0.84,19,0.629,22,0.471,24,0.5,34,0.629,36,0.629,38,0.827,43,0.629,45,0.827,53,0.827,58,0.827,59,1.608,64,0.827,65,0.827,66,0.827,69,1.092,71,1.608,72,1.446,74,0.827,81,1.092,83,0.827,84,0.827,87,0.827,95,0.827,105,1.909,120,1.218,129,1.495,130,1.495,131,1.495,132,1.495,133,1.092,134,1.608,135,1.092,136,1.092,137,1.092,138,1.608,139,1.092,140,1.092,141,1.495,142,1.092,143,1.092,144,1.092,145,1.092,146,1.495,147,1.495,148,1.092,149,1.495,150,1.495,151,1.495,152,1.092]],["title/8",[153,1.897]],["description/8",[2,0.589,4,0.774,10,0.813,12,0.589,13,0.879,16,0.666,19,0.506,21,0.666,22,0.721,24,0.273,33,0.666,34,0.506,36,0.506,38,1.428,43,0.786,45,0.666,53,1.267,58,1.267,64,0.666,65,0.666,66,0.666,72,0.666,74,0.666,79,0.879,83,1.034,84,0.666,87,0.666,91,1.886,92,1.365,95,0.666,96,0.879,99,0.879,102,0.879,106,0.879,107,1.365,108,0.879,111,0.879,120,0.666,133,0.879,134,1.365,135,0.879,136,0.879,137,0.879,138,1.365,139,0.879,140,0.879,142,0.879,143,0.879,144,0.879,145,0.879,148,1.365,152,0.879,154,2.289,155,1.203,156,1.203,157,1.203,158,1.203,159,1.203,160,1.203,161,1.203,162,1.203,163,1.203,164,1.203,165,1.203,166,1.203,167,1.203,168,1.203,169,1.203,170,1.203,171,1.203,172,1.203,173,1.203,174,1.203]]],"invertedIndex":[["",{"_index":4,"title":{},"description":{"1":{},"2":{},"3":{},"5":{},"7":{},"8":{}}}],["1",{"_index":96,"title":{},"description":{"5":{},"8":{}}}],["150",{"_index":141,"title":{},"description":{"7":{}}}],["2",{"_index":106,"title":{},"description":{"5":{},"8":{}}}],["2026-01-01",{"_index":137,"title":{},"description":{"7":{},"8":{}}}],["2026-02-06t",{"_index":89,"title":{},"description":{"5":{}}}],["2026-12-31",{"_index":140,"title":{},"description":{"7":{},"8":{}}}],["3",{"_index":108,"title":{},"description":{"5":{},"8":{}}}],["4",{"_index":111,"title":{},"description":{"5":{},"8":{}}}],["5",{"_index":173,"title":{},"description":{"8":{}}}],["50",{"_index":166,"title":{},"description":{"8":{}}}],["actualiza",{"_index":109,"title":{},"description":{"5":{}}}],["actualizada",{"_index":80,"title":{},"description":{"5":{}}}],["actualizar",{"_index":152,"title":{},"description":{"7":{},"8":{}}}],["al",{"_index":9,"title":{},"description":{"1":{}}}],["automáticament",{"_index":110,"title":{},"description":{"5":{}}}],["bd",{"_index":17,"title":{},"description":{"1":{},"2":{},"4":{},"5":{}}}],["bodi",{"_index":84,"title":{},"description":{"5":{},"7":{},"8":{}}}],["borra",{"_index":120,"title":{},"description":{"5":{},"7":{},"8":{}}}],["borrarlo",{"_index":20,"title":{},"description":{"1":{}}}],["bot",{"_index":14,"title":{},"description":{"1":{}}}],["bucket",{"_index":10,"title":{},"description":{"1":{},"2":{},"4":{},"5":{},"8":{}}}],["bucket(",{"_index":101,"title":{},"description":{"5":{}}}],["bucket=\"medico",{"_index":171,"title":{},"description":{"8":{}}}],["bucket=medico",{"_index":172,"title":{},"description":{"8":{}}}],["buckets_in_googl",{"_index":90,"title":{},"description":{"5":{}}}],["calendar",{"_index":0,"title":{"0":{}},"description":{"5":{}}}],["calendar/buckets/<bucket>/slots/<event_id>/reservar",{"_index":3,"title":{},"description":{"1":{}}}],["calendar/buckets/<bucket>/slots/generar",{"_index":30,"title":{},"description":{"2":{}}}],["calendar/buckets/<bucket>/slots/libr",{"_index":48,"title":{},"description":{"3":{}}}],["calendar/buckets/googl",{"_index":56,"title":{},"description":{"4":{}}}],["calendar/buckets/sincronizar",{"_index":64,"title":{},"description":{"5":{},"7":{},"8":{}}}],["calendar/buckets/tabla",{"_index":114,"title":{},"description":{"5":{},"6":{}}}],["calendar/buckets/{bucket}/slots/generar",{"_index":46,"title":{},"description":{"2":{}}}],["calendar/buckets/{bucket}/slots/libr",{"_index":54,"title":{},"description":{"3":{}}}],["calendar/buckets/{bucket}/slots/{event_id}/reservar",{"_index":28,"title":{},"description":{"1":{}}}],["calendar/calendars/limpiar",{"_index":105,"title":{},"description":{"5":{},"7":{}}}],["calendar/calendars/limpiar-bucket",{"_index":154,"title":{},"description":{"8":{}}}],["calendar_buckets_google_retriev",{"_index":55,"title":{"4":{}},"description":{}}],["calendar_buckets_sincronizar_cr",{"_index":63,"title":{"5":{}},"description":{}}],["calendar_buckets_slots_generar_cr",{"_index":29,"title":{"2":{}},"description":{}}],["calendar_buckets_slots_libres_retriev",{"_index":47,"title":{"3":{}},"description":{}}],["calendar_buckets_slots_reservar_cr",{"_index":1,"title":{"1":{}},"description":{}}],["calendar_buckets_tabla_retriev",{"_index":127,"title":{"6":{}},"description":{}}],["calendar_calendars_limpiar_bucket_cr",{"_index":153,"title":{"8":{}},"description":{}}],["calendar_calendars_limpiar_cr",{"_index":128,"title":{"7":{}},"description":{}}],["calendar_id",{"_index":134,"title":{},"description":{"7":{},"8":{}}}],["calendario",{"_index":24,"title":{},"description":{"1":{},"2":{},"3":{},"4":{},"7":{},"8":{}}}],["cambia",{"_index":15,"title":{},"description":{"1":{}}}],["carga",{"_index":113,"title":{},"description":{"5":{}}}],["caso",{"_index":146,"title":{},"description":{"7":{}}}],["choqu",{"_index":37,"title":{},"description":{"2":{}}}],["completo",{"_index":167,"title":{},"description":{"8":{}}}],["con",{"_index":43,"title":{},"description":{"2":{},"5":{},"7":{},"8":{}}}],["confiar",{"_index":11,"title":{},"description":{"1":{}}}],["confirmado",{"_index":23,"title":{},"description":{"1":{}}}],["correcto",{"_index":116,"title":{},"description":{"5":{}}}],["crea",{"_index":21,"title":{},"description":{"1":{},"2":{},"8":{}}}],["de",{"_index":72,"title":{},"description":{"5":{},"7":{},"8":{}}}],["del",{"_index":26,"title":{},"description":{"1":{},"2":{},"4":{}}}],["deleted_count",{"_index":95,"title":{},"description":{"5":{},"7":{},"8":{}}}],["deleted_from_t",{"_index":93,"title":{},"description":{"5":{}}}],["dentro",{"_index":39,"title":{},"description":{"2":{}}}],["description/properti",{"_index":158,"title":{},"description":{"8":{}}}],["desde=yyyy-mm-dd&hasta=yyyy-mm-dd&limit=100",{"_index":49,"title":{},"description":{"3":{}}}],["despué",{"_index":81,"title":{},"description":{"5":{},"7":{}}}],["devuelv",{"_index":51,"title":{},"description":{"3":{}}}],["dispon",{"_index":52,"title":{},"description":{"3":{}}}],["django",{"_index":68,"title":{},"description":{"5":{}}}],["dobl",{"_index":41,"title":{},"description":{"2":{}}}],["ejemplo",{"_index":133,"title":{},"description":{"7":{},"8":{}}}],["el",{"_index":13,"title":{},"description":{"1":{},"8":{}}}],["elimina",{"_index":74,"title":{},"description":{"5":{},"7":{},"8":{}}}],["eliminaron",{"_index":100,"title":{},"description":{"5":{}}}],["en",{"_index":12,"title":{},"description":{"1":{},"2":{},"4":{},"5":{},"8":{}}}],["endpoint",{"_index":83,"title":{},"description":{"5":{},"7":{},"8":{}}}],["envío",{"_index":42,"title":{},"description":{"2":{}}}],["es",{"_index":131,"title":{},"description":{"7":{}}}],["escanea",{"_index":57,"title":{},"description":{"4":{}}}],["especificar",{"_index":130,"title":{},"description":{"7":{}}}],["específico",{"_index":155,"title":{},"description":{"8":{}}}],["est",{"_index":170,"title":{},"description":{"8":{}}}],["esto",{"_index":119,"title":{},"description":{"5":{}}}],["event_id",{"_index":7,"title":{},"description":{"1":{}}}],["evento",{"_index":22,"title":{},"description":{"1":{},"4":{},"5":{},"7":{},"8":{}}}],["evita",{"_index":40,"title":{},"description":{"2":{}}}],["extra",{"_index":61,"title":{},"description":{"4":{},"5":{}}}],["fantasma",{"_index":78,"title":{},"description":{"5":{}}}],["field",{"_index":157,"title":{},"description":{"8":{}}}],["final",{"_index":25,"title":{},"description":{"1":{},"2":{}}}],["flujo",{"_index":102,"title":{},"description":{"5":{},"8":{}}}],["googl",{"_index":69,"title":{},"description":{"5":{},"7":{}}}],["guarda",{"_index":35,"title":{},"description":{"2":{}}}],["hace",{"_index":66,"title":{},"description":{"5":{},"7":{},"8":{}}}],["id",{"_index":129,"title":{},"description":{"7":{}}}],["id1",{"_index":143,"title":{},"description":{"7":{},"8":{}}}],["id2",{"_index":144,"title":{},"description":{"7":{},"8":{}}}],["identifican",{"_index":156,"title":{},"description":{"8":{}}}],["include_all=1",{"_index":50,"title":{},"description":{"3":{}}}],["lee",{"_index":70,"title":{},"description":{"5":{}}}],["limpia",{"_index":104,"title":{},"description":{"5":{}}}],["limpiar",{"_index":148,"title":{},"description":{"7":{},"8":{}}}],["limpieza",{"_index":82,"title":{},"description":{"5":{}}}],["llama",{"_index":107,"title":{},"description":{"5":{},"8":{}}}],["llamar",{"_index":151,"title":{},"description":{"7":{}}}],["lo",{"_index":34,"title":{},"description":{"2":{},"5":{},"7":{},"8":{}}}],["lock",{"_index":44,"title":{},"description":{"2":{}}}],["luego",{"_index":174,"title":{},"description":{"8":{}}}],["mantien",{"_index":79,"title":{},"description":{"5":{},"8":{}}}],["medico",{"_index":91,"title":{},"description":{"5":{},"8":{}}}],["messag",{"_index":97,"title":{},"description":{"5":{}}}],["minúscula",{"_index":165,"title":{},"description":{"8":{}}}],["muestra",{"_index":124,"title":{},"description":{"5":{}}}],["muy",{"_index":159,"title":{},"description":{"8":{}}}],["nico",{"_index":62,"title":{},"description":{"4":{},"5":{}}}],["normalizado",{"_index":164,"title":{},"description":{"8":{}}}],["notificacion",{"_index":27,"title":{},"description":{"1":{}}}],["nuevo",{"_index":32,"title":{},"description":{"2":{}}}],["opcion",{"_index":138,"title":{},"description":{"7":{},"8":{}}}],["otro",{"_index":163,"title":{},"description":{"8":{}}}],["para",{"_index":53,"title":{},"description":{"3":{},"7":{},"8":{}}}],["parámetro",{"_index":86,"title":{},"description":{"5":{}}}],["peluqueria",{"_index":92,"title":{},"description":{"5":{},"8":{}}}],["pero",{"_index":121,"title":{},"description":{"5":{}}}],["pertenezca",{"_index":8,"title":{},"description":{"1":{}}}],["período",{"_index":132,"title":{},"description":{"7":{}}}],["por",{"_index":45,"title":{},"description":{"2":{},"7":{},"8":{}}}],["post",{"_index":2,"title":{},"description":{"1":{},"2":{},"5":{},"7":{},"8":{}}}],["present",{"_index":73,"title":{},"description":{"5":{}}}],["problema",{"_index":117,"title":{},"description":{"5":{}}}],["prueba",{"_index":149,"title":{},"description":{"7":{}}}],["qu",{"_index":65,"title":{},"description":{"5":{},"7":{},"8":{}}}],["que",{"_index":6,"title":{},"description":{"1":{},"5":{}}}],["quier",{"_index":169,"title":{},"description":{"8":{}}}],["rang",{"_index":145,"title":{},"description":{"7":{},"8":{}}}],["range_end_d",{"_index":139,"title":{},"description":{"7":{},"8":{}}}],["range_start_d",{"_index":136,"title":{},"description":{"7":{},"8":{}}}],["rango",{"_index":59,"title":{},"description":{"4":{},"7":{}}}],["razon",{"_index":60,"title":{},"description":{"4":{}}}],["realidad",{"_index":126,"title":{},"description":{"5":{}}}],["recomendado",{"_index":103,"title":{},"description":{"5":{}}}],["refleja",{"_index":125,"title":{},"description":{"5":{}}}],["registro",{"_index":75,"title":{},"description":{"5":{}}}],["requier",{"_index":85,"title":{},"description":{"5":{}}}],["reservado",{"_index":18,"title":{},"description":{"1":{},"3":{}}}],["respuesta",{"_index":87,"title":{},"description":{"5":{},"7":{},"8":{}}}],["rápidament",{"_index":150,"title":{},"description":{"7":{}}}],["sample_deleted_id",{"_index":142,"title":{},"description":{"7":{},"8":{}}}],["se",{"_index":99,"title":{},"description":{"5":{},"8":{}}}],["servicio",{"_index":161,"title":{},"description":{"8":{}}}],["si",{"_index":31,"title":{},"description":{"2":{}}}],["siempr",{"_index":115,"title":{},"description":{"5":{}}}],["sigu",{"_index":122,"title":{},"description":{"5":{}}}],["sin",{"_index":19,"title":{},"description":{"1":{},"5":{},"7":{},"8":{}}}],["sincroniza",{"_index":67,"title":{},"description":{"5":{}}}],["sincronizada",{"_index":98,"title":{},"description":{"5":{}}}],["slot",{"_index":16,"title":{},"description":{"1":{},"2":{},"8":{}}}],["solo",{"_index":38,"title":{},"description":{"2":{},"7":{},"8":{}}}],["soluciona",{"_index":118,"title":{},"description":{"5":{}}}],["synced_at",{"_index":88,"title":{},"description":{"5":{}}}],["tabla",{"_index":36,"title":{},"description":{"2":{},"5":{},"7":{},"8":{}}}],["teniéndolo",{"_index":123,"title":{},"description":{"5":{}}}],["tienen",{"_index":77,"title":{},"description":{"5":{}}}],["til",{"_index":160,"title":{},"description":{"8":{}}}],["tocar",{"_index":162,"title":{},"description":{"8":{}}}],["todo",{"_index":71,"title":{},"description":{"5":{},"7":{}}}],["tu_email@gmail.com",{"_index":135,"title":{},"description":{"7":{},"8":{}}}],["ui",{"_index":112,"title":{},"description":{"5":{}}}],["un",{"_index":58,"title":{},"description":{"4":{},"7":{},"8":{}}}],["uso",{"_index":147,"title":{},"description":{"7":{}}}],["usuario",{"_index":168,"title":{},"description":{"8":{}}}],["valida",{"_index":5,"title":{},"description":{"1":{},"2":{}}}],["viejo_bucket",{"_index":94,"title":{},"description":{"5":{}}}],["y",{"_index":33,"title":{},"description":{"2":{},"4":{},"8":{}}}],["ya",{"_index":76,"title":{},"description":{"5":{}}}]],"pipeline":[]}},"options":{}};
+
+      var container = document.getElementById('redoc');
+      Redoc.hydrate(__redoc_state, container);
+
+      </script>
+</body>
+
+</html>

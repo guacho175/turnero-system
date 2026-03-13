@@ -1,0 +1,64 @@
+{
+  "intents": {
+    "saludo": ["hola", "buenas", "buenos dias", "buenas tardes", "hey", "hi","ho"],
+    "agenda": ["agendar", "agenda", "cita", "turno", "reservar", "hora"],
+    "si": ["si", "sí", "dale", "de acuerdo"],
+    "ack": ["ok", "oka", "ya", "listo", "perfecto", "gracias", "genial"],
+    "no": ["no", "nop", "no gracias", "despues", "después"],
+    "salir": ["salir", "cancelar", "terminar"],
+    "otra_fecha": ["otra fecha", "cambiar fecha", "otro dia", "otro día"]
+  },
+  "mensajes": {
+    "bienvenida": "Hola 👋 ¿Deseas agendar una hora?",
+    "boton_si": "Sí",
+    "boton_no": "No",
+
+    "sin_buckets": "Por el momento no hay agendas disponibles en el calendario de la empresa 😕. Intenta más tarde.",
+
+    "pedir_bucket_botones": "¿En cuál *agenda* deseas reservar? (elige una opción)",
+    "bucket_invalido": "No entendí la agenda 😕. Elige una opción.",
+
+    "pedir_bucket_lista": "Selecciona una agenda disponible:",
+    "bucket_lista_boton": "Ver agendas",
+    "bucket_lista_section": "Agendas",
+
+    "pedir_nombre": "Perfecto ✅. ¿Cuál es tu *nombre*?",
+    "nombre_invalido": "Necesito tu nombre (solo texto). Ej: *Christian*.",
+
+    "pedir_fecha": "¿Qué día deseas agendar? (formato *dd-mm-aaaa*)\nEj: *05-02-2026*\n\nPara salir escribe *SALIR*.",
+    "fecha_invalida": "No pude leer la fecha 😕. Usa *dd-mm-aaaa*. Ej: *05-02-2026*.",
+
+    "pedir_fecha_botones": "¿Qué día deseas agendar? Elige una opción 👇",
+    "boton_hoy": "Hoy",
+    "boton_manana": "Mañana",
+    "boton_elegir_dia": "Elegir día",
+
+    "pedir_fecha_lista": "Selecciona un día de los próximos 7 días:",
+    "fecha_lista_boton": "Ver días",
+    "fecha_lista_section": "Días",
+
+    "pedir_fecha_manual": "Escribe la fecha en formato *dd-mm-aaaa*.\nEj: *05-02-2026*\n\nPara salir escribe *SALIR*.",
+
+    "buscando": "Buscando horarios disponibles para {fecha}...",
+    "sin_horarios": "No hay horarios disponibles para {fecha}.\nElige otro día o escribe una fecha (dd-mm-aaaa).",
+
+    "slots_title": "📅 Horarios disponibles para {fecha}:",
+    "slots_button": "Elegir horario",
+    "slots_section": "Horarios",
+
+    "confirmando": "Un momento… estoy reservando tu hora 📅",
+    "confirmada": "✅ Reserva confirmada\n📅 {fecha} {hora}\n👤 {nombre}\n\n¿Necesitas algo más?",
+    "boton_agendar_otra": "Agendar otra",
+    "boton_salir": "Salir",
+
+    "despedida": "Perfecto 🙌. Cuando quieras agendar de nuevo, escribe *hola*.",
+    "rechazo": "Perfecto. Si luego deseas agendar, escribe *agendar*.",
+    "error": "Ocurrió un problema. Intenta de nuevo.",
+    "fallback": "No te entendí 😅. Escribe *hola* o *agendar* para comenzar.",
+    "usar_botones": "Responde usando los botones 🙂",
+    "necesitas_algo_mas": "¿Necesitas algo más?",
+    "slot_no_disponible": "Ese horario ya fue tomado 😕. Elige otro día o escribe una fecha (dd-mm-aaaa).",
+    "pedir_email": "Para enviarte la invitación por correo 📩, escribe tu *email*.\n\nSi no quieres, responde *NO*.",
+    "email_invalido": "Ese email no se ve válido 😕. Ej: *nombre@dominio.com*.\n\nO responde *NO* para omitir."
+  }
+}

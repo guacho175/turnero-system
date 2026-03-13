@@ -1,0 +1,124 @@
+{
+  "categorias": [
+    {
+      "id": "faciales",
+      "titulo": "Tratamientos Faciales",
+      "calendario_key": "faciales",
+      "bucket_key": "faciales",
+      "servicios": [
+        {
+          "id": "botox_tercio_superior",
+          "nombre": "Botox – Frente y Ojos",
+          "indicador": "Aplicación en tercio superior (frente/entrecejo/contorno ocular).",
+          "objetivo": "Atenuar y prevenir arrugas de expresión, mejorando el aspecto del tercio superior.",
+          "duracion_min": 30,
+          "agenda_key": "botox"
+        },
+        {
+          "id": "acido_hialuronico_tercio_medio_inferior",
+          "nombre": "Ácido Hialurónico Facial",
+          "indicador": "Aplicación de ácido hialurónico.",
+          "objetivo": "Relleno/volumen en zonas como labios, surcos, ojeras, pómulos, mentón, nariz; armonización.",
+          "duracion_min": 45,
+          "agenda_key": "acido_hialuronico"
+        },
+        {
+          "id": "hilos_faciales_ovalo",
+          "nombre": "Hilos Tensores – Lifting",
+          "indicador": "Colocación de hilos tensores faciales.",
+          "objetivo": "Tensar óvalo facial y lograr efecto lifting.",
+          "duracion_min": 60,
+          "agenda_key": "hilos_faciales"
+        },
+        {
+          "id": "foxeyes",
+          "nombre": "FoxEyes",
+          "indicador": "Aplicación de hilos tensores.",
+          "objetivo": "Elevar la ceja y lograr efecto “mirada fox”.",
+          "duracion_min": 45,
+          "agenda_key": "foxeyes"
+        }
+      ]
+    },
+    {
+      "id": "corporales",
+      "titulo": "Tratamientos Corporales",
+      "calendario_key": "corporales",
+      "bucket_key": "corporales",
+      "servicios": [
+        {
+          "id": "reduccion_grasa_localizada_mela",
+          "nombre": "Reduce Grasa Localizada",
+          "indicador": "Tratamiento orientado a grasa localizada.",
+          "objetivo": "Reducir grasa localizada y ayudar a remodelar/tonificar (según evaluación).",
+          "duracion_min": 45,
+          "agenda_key": "grasa_mela"
+        },
+        {
+          "id": "chip_hormonal",
+          "nombre": "Chip hormonal",
+          "indicador": "Aplicación de chip/pellet hormonal.",
+          "objetivo": "Apoyo a balance hormonal y bienestar (según evaluación profesional).",
+          "duracion_min": 30,
+          "agenda_key": "chip_hormonal"
+        },
+        {
+          "id": "hilos_tensores_gluteos",
+          "nombre": "Hilos tensores glúteos",
+          "indicador": "Aplicación de hilos tensores en glúteos.",
+          "objetivo": "Tensar/levantar glúteos.",
+          "duracion_min": 60,
+          "agenda_key": "hilos_gluteos"
+        },
+        {
+          "id": "hilos_tensores_abdomen",
+          "nombre": "Hilos tensores abdomen",
+          "indicador": "Aplicación de hilos tensores en abdomen.",
+          "objetivo": "Tensar y dar mayor firmeza al abdomen.",
+          "duracion_min": 60,
+          "agenda_key": "hilos_abdomen"
+        }
+      ]
+    },
+    {
+      "id": "aparatologia",
+      "titulo": "Aparatología",
+      "calendario_key": "aparatologia",
+      "bucket_key": "aparatologia",
+      "servicios": [
+        {
+          "id": "laser_nordlys",
+          "nombre": "Rejuvenecimiento",
+          "indicador": "Tecnología Ellipse SWT.",
+          "objetivo": "Tratamiento de manchas/pigmentación, vasculares/rosácea, rejuvenecimiento y otras indicaciones.",
+          "duracion_min": 45,
+          "agenda_key": "laser_nordlys"
+        },
+        {
+          "id": "hifu",
+          "nombre": "Lifting y Reducción",
+          "indicador": "Ultrasonido focalizado (HIFU).",
+          "objetivo": "Tensar piel y reducir grasa localizada (facial/corporal) según evaluación.",
+          "duracion_min": 60,
+          "agenda_key": "hifu"
+        },
+        {
+          "id": "scizer",
+          "nombre": "Moldea y Reduce",
+          "indicador": "Tratamiento por sesiones.",
+          "objetivo": "Reducción de grasa localizada (plan según evaluación).",
+          "duracion_min": 45,
+          "agenda_key": "scizer"
+        },
+        {
+          "id": "dermasculpt",
+          "nombre": "Tonifica y Define",
+          "indicador": "Estimulación electromagnética (según texto web).",
+          "objetivo": "Tonificar y ganar masa muscular (por ejemplo abdomen).",
+          "duracion_min": 30,
+          "agenda_key": "dermasculpt"
+        }
+      ]
+    }
+  ]
+}

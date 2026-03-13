@@ -1,0 +1,753 @@
+{% extends "calendar_app/base.html" %}
+{% load static %}
+
+{% block title %}Generador de Slots{% endblock %}
+
+{% block extra_head %}
+  <link rel="stylesheet" href="{% static 'calendar_app/toast.css' %}">
+  
+  <style>
+    /* ========================================
+       VARIABLES DE DISEÑO
+       ======================================== */
+    :root {
+      --emerald-50: #ecfdf5;
+      --emerald-100: #d1fae5;
+      --emerald-200: #a7f3d0;
+      --emerald-500: #10b981;
+      --emerald-600: #059669;
+      --emerald-700: #047857;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-300: #d1d5db;
+      --gray-400: #9ca3af;
+      --gray-500: #6b7280;
+      --gray-600: #4b5563;
+      --gray-700: #374151;
+      --gray-800: #1f2937;
+      --gray-900: #111827;
+    }
+
+    /* ========================================
+       LAYOUT GENERAL
+       ======================================== */
+    body {
+      background: linear-gradient(135deg, var(--gray-50) 0%, var(--gray-100) 100%);
+      min-height: 100vh;
+    }
+
+    .slot-overlay {
+      position: relative;
+      padding: 2rem 1rem;
+    }
+
+    .slot-modal {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .slot-modal__body {
+      background: white;
+      border-radius: 1.5rem;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 0 0 1px var(--gray-200);
+      overflow: hidden;
+    }
+
+    /* ========================================
+       HEADER DEL MÓDULO
+       ======================================== */
+    .slot-top {
+      background: linear-gradient(135deg, var(--emerald-500) 0%, var(--emerald-600) 100%);
+      padding: 2rem 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .slot-title {
+      font-size: 1.875rem;
+      font-weight: 700;
+      color: white;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .slot-title::before {
+      content: "➕";
+      font-size: 1.5rem;
+    }
+
+    .slot-sub {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+    }
+
+    .slot-sub::after {
+      content: "Crea bloques de disponibilidad en tu agenda";
+    }
+
+    .btn-back {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.75rem;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.875rem;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(10px);
+      transition: all 0.2s;
+    }
+
+    .btn-back:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-1px);
+    }
+
+    /* ========================================
+       CONTENIDO PRINCIPAL
+       ======================================== */
+    .wrap {
+      padding: 2.5rem;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid var(--gray-200);
+      margin: 2rem 0;
+    }
+
+    /* ========================================
+       SECCIONES CON PASOS NUMERADOS
+       ======================================== */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .step-number {
+      width: 2rem;
+      height: 2rem;
+      background: var(--emerald-100);
+      color: var(--emerald-700);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.875rem;
+      flex-shrink: 0;
+    }
+
+    .section-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--gray-900);
+      margin: 0;
+    }
+
+    /* ========================================
+       GRID SYSTEM
+       ======================================== */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 1.5rem;
+    }
+
+    .col-12 { grid-column: span 12; }
+    .col-8 { grid-column: span 8; }
+    .col-6 { grid-column: span 6; }
+    .col-4 { grid-column: span 4; }
+    .col-3 { grid-column: span 3; }
+
+    @media (max-width: 1050px) {
+      .col-4, .col-3, .col-6, .col-8 { 
+        grid-column: span 12; 
+      }
+    }
+
+    /* ========================================
+       INPUTS Y LABELS
+       ======================================== */
+    label {
+      display: block;
+      font-weight: 500;
+      font-size: 0.875rem;
+      color: var(--gray-700);
+      margin-bottom: 0.5rem;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    input[type="time"],
+    select {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background: white;
+      border: 2px solid var(--gray-200);
+      border-radius: 0.75rem;
+      font-size: 0.875rem;
+      color: var(--gray-900);
+      transition: all 0.2s;
+      box-sizing: border-box;
+    }
+
+    input[type="text"]:focus,
+    input[type="date"]:focus,
+    input[type="time"]:focus,
+    select:focus {
+      outline: none;
+      border-color: var(--emerald-500);
+      box-shadow: 0 0 0 4px var(--emerald-100);
+    }
+
+    input::placeholder {
+      color: var(--gray-400);
+    }
+
+    select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.75rem center;
+      padding-right: 2.5rem;
+      cursor: pointer;
+    }
+
+    .help {
+      font-size: 0.75rem;
+      color: var(--gray-500);
+      margin-top: 0.375rem;
+    }
+
+    /* ========================================
+       BUCKET NEW ROW
+       ======================================== */
+    .bucket-new-row {
+      transition: all 0.3s;
+    }
+
+    .bucket-new-row.hidden {
+      display: none;
+    }
+
+    /* ========================================
+       ACORDEONES (DETAILS)
+       ======================================== */
+    details.adv {
+      background: var(--gray-50);
+      border: 2px solid var(--gray-200);
+      border-radius: 0.75rem;
+      padding: 1rem;
+      transition: all 0.2s;
+    }
+
+    details.adv:hover {
+      background: var(--gray-100);
+    }
+
+    details.adv summary {
+      font-weight: 600;
+      color: var(--gray-900);
+      cursor: pointer;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      list-style: none;
+    }
+
+    details.adv summary::-webkit-details-marker {
+      display: none;
+    }
+
+    details.adv summary::before {
+      content: "⚙️";
+      font-size: 1.125rem;
+    }
+
+    details.adv[open] summary {
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--gray-300);
+    }
+
+    /* ========================================
+       WEEKDAYS
+       ======================================== */
+    .days-row {
+      margin-top: 1rem;
+    }
+
+    .days-row > label {
+      margin-bottom: 0.75rem;
+      font-weight: 600;
+    }
+
+    .weekdays {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .weekdays label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: white;
+      padding: 0.5rem 1rem;
+      border: 2px solid var(--gray-200);
+      border-radius: 0.5rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin: 0;
+    }
+
+    .weekdays label:hover {
+      border-color: var(--emerald-300);
+      background: var(--emerald-50);
+    }
+
+    .weekdays input[type="checkbox"] {
+      width: auto;
+      margin: 0;
+    }
+
+    .weekdays input[type="checkbox"]:checked + span,
+    .weekdays label:has(input[type="checkbox"]:checked) {
+      background: var(--emerald-100);
+      border-color: var(--emerald-500);
+      color: var(--emerald-700);
+    }
+
+    /* ========================================
+       VENTANAS Y BLOQUEOS
+       ======================================== */
+    .panels-adv summary::before {
+      content: "🕒";
+    }
+
+    .two-cols {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    @media (max-width: 1050px) {
+      .two-cols {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .panel {
+      background: white;
+      border: 2px solid var(--gray-200);
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+    }
+
+    .panel h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--gray-900);
+      margin: 0 0 0.25rem 0;
+    }
+
+    .panel .sub {
+      font-size: 0.75rem;
+      color: var(--gray-500);
+      margin-bottom: 1rem;
+    }
+
+    .rowline {
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-end;
+      margin-bottom: 1rem;
+    }
+
+    .rowline > div {
+      flex: 1;
+    }
+
+    .rowline button {
+      padding: 0.75rem 1.25rem;
+      white-space: nowrap;
+      background: var(--emerald-500);
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .rowline button:hover {
+      background: var(--emerald-600);
+    }
+
+    /* ========================================
+       TABLAS
+       ======================================== */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+    }
+
+    table thead {
+      background: var(--gray-50);
+    }
+
+    table th {
+      text-align: left;
+      padding: 0.75rem;
+      font-weight: 600;
+      color: var(--gray-700);
+      border-bottom: 2px solid var(--gray-200);
+    }
+
+    table td {
+      padding: 0.75rem;
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    table tbody tr:hover {
+      background: var(--gray-50);
+    }
+
+    .btn-danger {
+      background: #ef4444;
+      color: white;
+      border: none;
+      padding: 0.375rem 0.75rem;
+      border-radius: 0.375rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-danger:hover {
+      background: #dc2626;
+    }
+
+    /* ========================================
+       BOTONES DE ACCIÓN
+       ======================================== */
+    .actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .actions button {
+      flex: 1;
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 0.75rem;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    #btnCreate {
+      background: linear-gradient(135deg, var(--emerald-500) 0%, var(--emerald-600) 100%);
+      color: white;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    }
+
+    #btnCreate:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+    }
+
+    #btnCreate:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-secondary {
+      background: white;
+      color: var(--gray-700);
+      border: 2px solid var(--gray-300);
+    }
+
+    .btn-secondary:hover {
+      background: var(--gray-50);
+      border-color: var(--gray-400);
+    }
+
+    @media (max-width: 640px) {
+      .actions {
+        flex-direction: column;
+      }
+    }
+
+    /* ========================================
+       DEBUG SECTION
+       ======================================== */
+    details.debug {
+      margin-top: 2rem;
+      background: var(--gray-900);
+      border-radius: 0.75rem;
+      padding: 1rem;
+    }
+
+    details.debug summary {
+      color: var(--emerald-400);
+      font-size: 0.875rem;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    details.debug[open] summary {
+      margin-bottom: 1rem;
+    }
+
+    .json-out {
+      background: var(--gray-900);
+      color: var(--emerald-400);
+      padding: 1rem;
+      border-radius: 0.5rem;
+      font-family: 'Courier New', monospace;
+      font-size: 0.75rem;
+      overflow-x: auto;
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    /* ========================================
+       ALERTS (OCULTO POR COMPATIBILIDAD)
+       ======================================== */
+    #alerts {
+      display: none;
+    }
+
+    /* ========================================
+       RESPONSIVE
+       ======================================== */
+    @media (max-width: 768px) {
+      .slot-top {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .wrap {
+        padding: 1.5rem;
+      }
+
+      .grid {
+        gap: 1rem;
+      }
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+<div class="slot-overlay open" id="slotModal">
+  <div class="slot-modal">
+    <div class="slot-modal__body">
+      
+      <!-- Header -->
+      <div class="slot-top">
+        <div>
+          <h2 class="slot-title">Generar slots</h2>
+          <div class="slot-sub"></div>
+        </div>
+        <a href="/calendar/" class="btn-back" title="Volver al calendario">◀ Volver</a>
+      </div>
+
+      <div class="wrap">
+        
+        <!-- Alerts (oculto, por compatibilidad) -->
+        <div id="alerts" class="alerts"></div>
+
+        <!-- PASO 1: Configuración Principal -->
+        <div class="section-header">
+          <div class="step-number">1</div>
+          <h3 class="section-title">Configuración Principal</h3>
+        </div>
+
+        <div class="grid">
+          <!-- Bucket -->
+          <div class="col-4">
+            <label>Bucket (agenda lógica dentro del mismo calendario)</label>
+            <select id="bucketSelect"></select>
+            <div class="help" id="bucketHint">Elige un bucket</div>
+          </div>
+
+          <!-- Bucket Nuevo -->
+          <div class="col-4 bucket-new-row hidden" data-bucket-new>
+            <label>Nuevo bucket</label>
+            <input id="bucketNew" placeholder="Ej: medico, uñas, kinesiologia" disabled/>
+            <div class="help">Solo si eliges "Nuevo…"</div>
+          </div>
+
+          <!-- Fecha Inicio -->
+          <div class="col-4">
+            <label>Fecha inicio</label>
+            <input id="range_start_date" type="date"/>
+            <div class="help">Solo fecha.</div>
+          </div>
+
+          <!-- Fecha Fin -->
+          <div class="col-4">
+            <label>Fecha fin</label>
+            <input id="range_end_date" type="date"/>
+            <div class="help">Incluye último día.</div>
+          </div>
+
+          <!-- Duración -->
+          <div class="col-4">
+            <label>Duración</label>
+            <input id="slot_minutes" type="time" value="01:00" step="300"/>
+            <div class="help">Formato HH:MM · step 5 min.</div>
+          </div>
+
+          <!-- Profesional -->
+          <div class="col-6">
+            <label>Profesional <span style="color:#dc2626;">(obligatorio)</span></label>
+            <input id="professional_name" name="professional_name" type="text" placeholder="Nombre Apellido" required />
+          </div>
+        </div>
+
+        <hr class="divider"/>
+
+        <!-- PASO 2: Opciones Avanzadas -->
+        <div class="section-header">
+          <div class="step-number">2</div>
+          <h3 class="section-title">Opciones avanzadas</h3>
+        </div>
+
+        <div class="grid">
+          <div class="col-12">
+            <details class="adv">
+              <summary>Días habilitados ▸</summary>
+              <div class="days-row">
+                <label>Días habilitados</label>
+                <div id="weekdays" class="weekdays">
+                  <label><input type="checkbox" value="1" checked> <span>Lun</span></label>
+                  <label><input type="checkbox" value="2" checked> <span>Mar</span></label>
+                  <label><input type="checkbox" value="3" checked> <span>Mié</span></label>
+                  <label><input type="checkbox" value="4" checked> <span>Jue</span></label>
+                  <label><input type="checkbox" value="5" checked> <span>Vie</span></label>
+                  <label><input type="checkbox" value="6"> <span>Sáb</span></label>
+                  <label><input type="checkbox" value="7"> <span>Dom</span></label>
+                </div>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <hr class="divider"/>
+
+        <!-- PASO 3: Ventanas y Bloqueos -->
+        <div class="section-header">
+          <div class="step-number">3</div>
+          <h3 class="section-title">Ventanas y bloqueos</h3>
+        </div>
+
+        <details class="adv panels-adv">
+          <summary>Define horarios disponibles y períodos bloqueados ▸</summary>
+          <div class="two-cols">
+            
+            <!-- Panel Ventanas -->
+            <div class="panel">
+              <h3>Ventanas de disponibilidad</h3>
+              <div class="sub">Ej: 09:00–13:00 y 14:00–18:00</div>
+
+              <div class="rowline">
+                <div>
+                  <label>Inicio</label>
+                  <input id="win_start" type="time" value="09:00" placeholder="HH:MM" step="300"/>
+                </div>
+                <div>
+                  <label>Fin</label>
+                  <input id="win_end" type="time" value="18:00" placeholder="HH:MM" step="300"/>
+                </div>
+                <button id="btnAddWindow" type="button">Añadir</button>
+              </div>
+
+              <table id="windows_table">
+                <thead>
+                  <tr><th>Inicio</th><th>Fin</th><th style="width:64px;"></th></tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+
+            <!-- Panel Bloqueos -->
+            <div class="panel">
+              <h3>Bloqueos dentro del día</h3>
+              <div class="sub">Ej: almuerzo 13:00–14:00</div>
+
+              <div class="rowline">
+                <div>
+                  <label>Inicio</label>
+                  <input id="blk_start" type="time" value="13:00" placeholder="HH:MM" step="300"/>
+                </div>
+                <div>
+                  <label>Fin</label>
+                  <input id="blk_end" type="time" value="15:00" placeholder="HH:MM" step="300"/>
+                </div>
+                <button id="btnAddBlock" type="button">Añadir</button>
+              </div>
+
+              <table id="blocks_table">
+                <thead>
+                  <tr><th>Inicio</th><th>Fin</th><th style="width:64px;"></th></tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+
+          </div>
+        </details>
+
+        <hr class="divider"/>
+
+        <!-- Botones de Acción -->
+        <div class="actions">
+          <button id="btnCreate" type="button">Crear slots</button>
+          <button id="btnClear" type="button" class="btn-secondary">Limpiar</button>
+        </div>
+
+        <!-- Debug JSON -->
+        <details class="debug">
+          <summary>▶ Respuesta (debug JSON)</summary>
+          <pre id="out" class="json-out">—</pre>
+        </details>
+
+      </div><!-- /.wrap -->
+    </div><!-- /.slot-modal__body -->
+  </div><!-- /.slot-modal -->
+</div><!-- /.slot-overlay -->
+{% endblock %}
+
+{% block extra_js %}
+  <script src="{% static 'calendar_app/bucket_picker.js' %}"></script>
+  <script src="{% static 'calendar_app/toast.js' %}"></script>
+  <script type="module" src="{% static 'calendar_app/slot_generator.js' %}"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const overlay = document.getElementById('slotModal');
+      if (!overlay) return;
+      // Modal siempre abierto - sin opción de cerrar
+      document.body.classList.add('modal-open');
+    });
+  </script>
+{% endblock %}

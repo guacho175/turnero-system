@@ -1,0 +1,770 @@
+openapi: 3.0.3
+info:
+  title: API Turnero
+  version: 1.0.0
+  description: Documentación de la API
+paths:
+  /calendar/buckets/{bucket}/slots/{event_id}/reservar:
+    post:
+      operationId: calendar_buckets_slots_reservar_create
+      description: |-
+        POST /calendar/buckets/<bucket>/slots/<event_id>/reservar
+        - valida que event_id pertenezca al bucket (NO confiar en el bot)
+        - si el slot TIENE profesional asignado, el professional_name del request DEBE coincidir
+        - si el slot NO tiene profesional (agenda genérica), se ignora el valor de professional_name
+        - cambia slot en BD a RESERVADO (sin borrarlo)
+        - crea evento confirmado en calendario FINAL del bucket (notificaciones)
+      parameters:
+      - in: path
+        name: bucket
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: event_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - calendar
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SlotReservar'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SlotReservar'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SlotReservar'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SlotReservarResponse'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conflict'
+          description: ''
+        '502':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadGateway'
+          description: ''
+  /calendar/buckets/{bucket}/slots/generar:
+    post:
+      operationId: calendar_buckets_slots_generar_create
+      description: |-
+        POST /calendar/buckets/<bucket>/slots/generar
+        - Crea slots en calendario BD
+        - Si bucket nuevo: crea calendario FINAL y lo guarda en tabla Bucket
+        - Valida choques SOLO dentro del bucket
+        - NUEVO: evita doble envío con lock por bucket
+      parameters:
+      - in: path
+        name: bucket
+        schema:
+          type: string
+        required: true
+      tags:
+      - calendar
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SlotCreate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SlotCreate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SlotCreate'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SlotsGenerarResponse'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest2'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conflict2'
+          description: ''
+  /calendar/buckets/{bucket}/slots/libres:
+    get:
+      operationId: calendar_buckets_slots_libres_retrieve
+      description: |-
+        GET /calendar/buckets/<bucket>/slots/libres
+        ?desde=YYYY-MM-DD&hasta=YYYY-MM-DD&limit=100
+        &include_all=1 -> devuelve DISPONIBLE + RESERVADO (para calendario)
+      parameters:
+      - in: path
+        name: bucket
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: desde
+        schema:
+          type: string
+          format: date
+        required: true
+      - in: query
+        name: hasta
+        schema:
+          type: string
+          format: date
+          nullable: true
+      - in: query
+        name: include_all
+        schema:
+          type: string
+        description: Si es 1/true incluye AVAILABLE + RESERVED. Si no, solo AVAILABLE.
+      - in: query
+        name: limit
+        schema:
+          type: integer
+          maximum: 250
+          minimum: 1
+          default: 100
+      - in: query
+        name: professional_key
+        schema:
+          type: string
+          maxLength: 120
+      - in: query
+        name: professional_name
+        schema:
+          type: string
+          maxLength: 120
+      tags:
+      - calendar
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SlotsLibresResponse'
+          description: ''
+  /calendar/buckets/google:
+    get:
+      operationId: calendar_buckets_google_retrieve
+      description: |-
+        GET /calendar/buckets/google
+        Escanea eventos del calendario BD en un rango razonable y extrae buckets únicos.
+      tags:
+      - calendar
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BucketsResponse'
+          description: ''
+  /calendar/buckets/sincronizar:
+    post:
+      operationId: calendar_buckets_sincronizar_create
+      description: POST /calendar/buckets/sincronizar
+      tags:
+      - calendar
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SyncBuckets'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SyncBuckets'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SyncBuckets'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SyncBucketsResponse'
+          description: ''
+  /calendar/buckets/tabla:
+    get:
+      operationId: calendar_buckets_tabla_retrieve
+      description: GET /calendar/buckets/tabla
+      tags:
+      - calendar
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BucketsResponse'
+          description: ''
+  /calendar/calendars/limpiar:
+    post:
+      operationId: calendar_calendars_limpiar_create
+      description: POST /calendar/calendars/limpiar
+      tags:
+      - calendar
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CalendarClear'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CalendarClear'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CalendarClear'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CalendarClearResponse'
+          description: ''
+  /calendar/calendars/limpiar-bucket:
+    post:
+      operationId: calendar_calendars_limpiar_bucket_create
+      description: POST /calendar/calendars/limpiar-bucket
+      tags:
+      - calendar
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CalendarClearBucket'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CalendarClearBucket'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CalendarClearBucket'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CalendarClearBucketResponse'
+          description: ''
+components:
+  schemas:
+    BadGateway:
+      type: object
+      properties:
+        detail:
+          type: string
+      required:
+      - detail
+    BadRequest:
+      type: object
+      properties:
+        detail:
+          type: string
+      required:
+      - detail
+    BadRequest2:
+      type: object
+      properties:
+        detail:
+          type: string
+      required:
+      - detail
+    BdUpdated:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID del evento en Google Calendar
+        summary:
+          type: string
+          description: Nuevo summary del evento
+      required:
+      - id
+      - summary
+    BucketsResponse:
+      type: object
+      properties:
+        buckets:
+          type: array
+          items:
+            type: string
+      required:
+      - buckets
+    CalendarClear:
+      type: object
+      description: |-
+        Body:
+          POST /calendar/calendars/limpiar
+      properties:
+        calendar_id:
+          type: string
+          maxLength: 300
+        range_start_date:
+          type: string
+          format: date
+          nullable: true
+        range_end_date:
+          type: string
+          format: date
+          nullable: true
+      required:
+      - calendar_id
+    CalendarClearBucket:
+      type: object
+      description: |-
+        VALIDADOR para POST /calendar/calendars/limpiar-bucket
+
+        QUÉ VALIDA:
+          - calendar_id: obligatorio, ID del calendario
+          - bucket: obligatorio, nombre del bucket a limpiar
+          - range_start_date: opcional, fecha inicio
+          - range_end_date: opcional, fecha fin
+
+        LÓGICA:
+          - bucket se normaliza a minúsculas ("Medico" → "medico")
+          - valida que end >= start
+          - NO borra otros buckets, solo el especificado
+
+        EJEMPLO:
+          {
+            "calendar_id": "tu@gmail.com",
+            "bucket": "medico",
+            "range_start_date": "2026-01-01",
+            "range_end_date": "2026-12-31"
+          }
+          → Borra solo eventos con bucket=medico en ese rango
+             No toca peluqueria, kinesiologia, etc.
+      properties:
+        calendar_id:
+          type: string
+          maxLength: 300
+        bucket:
+          type: string
+          maxLength: 120
+        range_start_date:
+          type: string
+          format: date
+          nullable: true
+        range_end_date:
+          type: string
+          format: date
+          nullable: true
+      required:
+      - bucket
+      - calendar_id
+    CalendarClearBucketResponse:
+      type: object
+      properties:
+        range:
+          $ref: '#/components/schemas/DateRange'
+        calendar_id:
+          type: string
+          description: ID del calendario
+        bucket:
+          type: string
+          description: Bucket filtrado
+        deleted_count:
+          type: integer
+          description: Cantidad de eventos eliminados
+        sample_deleted_ids:
+          type: array
+          items:
+            type: string
+          description: Muestra de IDs eliminados
+      required:
+      - bucket
+      - calendar_id
+      - deleted_count
+      - range
+      - sample_deleted_ids
+    CalendarClearResponse:
+      type: object
+      properties:
+        range:
+          $ref: '#/components/schemas/DateRange'
+        calendar_id:
+          type: string
+          description: ID del calendario limpiado
+        deleted_count:
+          type: integer
+          description: Cantidad de eventos eliminados
+        sample_deleted_ids:
+          type: array
+          items:
+            type: string
+          description: Muestra de IDs eliminados
+      required:
+      - calendar_id
+      - deleted_count
+      - range
+      - sample_deleted_ids
+    Conflict:
+      type: object
+      properties:
+        detail:
+          type: string
+      required:
+      - detail
+    Conflict2:
+      type: object
+      properties:
+        detail:
+          type: string
+      required:
+      - detail
+    DateRange:
+      type: object
+      properties:
+        from:
+          type: string
+          description: Fecha/hora inicio ISO 8601
+        to:
+          type: string
+          description: Fecha/hora fin ISO 8601
+      required:
+      - from
+      - to
+    SlotCreate:
+      type: object
+      description: |-
+        Payload para generar slots en el CALENDARIO BD.
+        Importante: el bucket NO va en el body, va en el PATH:
+          POST /calendar/buckets/<bucket>/slots/generar
+      properties:
+        start:
+          type: string
+          format: date-time
+        end:
+          type: string
+          format: date-time
+        range_start_date:
+          type: string
+          format: date
+        range_end_date:
+          type: string
+          format: date
+        slot_minutes:
+          type: integer
+          minimum: 5
+        service:
+          type: string
+          maxLength: 120
+        summary_prefix:
+          type: string
+          default: DISPONIBLE
+          maxLength: 60
+        professional_name:
+          type: string
+          maxLength: 120
+        professional_key:
+          type: string
+          maxLength: 120
+        weekdays:
+          type: array
+          items:
+            type: integer
+            maximum: 7
+            minimum: 1
+          description: 'Días de la semana: 1=lun, 2=mar, ..., 7=dom'
+        windows:
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeWindow'
+          description: Ventanas de atención [{'start':'09:00','end':'18:00'}]
+        blocks:
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeWindow'
+          description: Bloqueos horarios [{'start':'13:00','end':'14:00'}]
+    SlotDateTime:
+      type: object
+      properties:
+        dateTime:
+          type: string
+          description: Fecha/hora ISO 8601
+        timeZone:
+          type: string
+      required:
+      - dateTime
+    SlotDateTimeEnd:
+      type: object
+      properties:
+        dateTime:
+          type: string
+          description: Fecha/hora ISO 8601
+        timeZone:
+          type: string
+      required:
+      - dateTime
+    SlotItem:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID del evento en Google Calendar
+        summary:
+          type: string
+          description: Resumen/título del slot
+        start:
+          $ref: '#/components/schemas/SlotDateTime'
+        end:
+          $ref: '#/components/schemas/SlotDateTimeEnd'
+        bucket:
+          type: string
+          description: Nombre del bucket
+        slot_status:
+          type: string
+          description: AVAILABLE o RESERVED
+        state:
+          type: string
+          nullable: true
+        professional_key:
+          type: string
+          nullable: true
+        professional_name:
+          type: string
+          nullable: true
+        slot_uid:
+          type: string
+          nullable: true
+      required:
+      - bucket
+      - end
+      - id
+      - slot_status
+      - start
+      - summary
+    SlotReservar:
+      type: object
+      description: |-
+        Body:
+          POST /calendar/buckets/<bucket>/slots/<event_id>/reservar
+
+        Permite:
+          - attendee_email (1) o attendees (muchos)
+          - normaliza a attendees_norm
+      properties:
+        customer_name:
+          type: string
+          maxLength: 120
+        professional_name:
+          type: string
+          maxLength: 120
+        customer_phone:
+          type: string
+          maxLength: 40
+        notes:
+          type: string
+          maxLength: 500
+        attendee_email:
+          type: string
+          format: email
+        attendees:
+          type: array
+          items:
+            type: string
+            format: email
+      required:
+      - customer_name
+    SlotReservarResponse:
+      type: object
+      properties:
+        bd_updated:
+          $ref: '#/components/schemas/BdUpdated'
+        bucket:
+          type: string
+          description: Nombre del bucket
+        bd_event_id:
+          type: string
+          description: ID del evento en calendario BD
+        final_calendar_id:
+          type: string
+          description: ID del calendario final
+        final_event_id:
+          type: string
+          description: ID del evento creado en calendario final
+        final_htmlLink:
+          type: string
+          description: Link HTML al evento
+      required:
+      - bd_event_id
+      - bd_updated
+      - bucket
+      - final_calendar_id
+      - final_event_id
+    SlotsGenerarResponse:
+      type: object
+      properties:
+        bucket:
+          type: string
+        created_count:
+          type: integer
+        created_ids:
+          type: array
+          items:
+            type: string
+      required:
+      - bucket
+      - created_count
+      - created_ids
+    SlotsLibresResponse:
+      type: object
+      properties:
+        bucket:
+          type: string
+        desde:
+          type: string
+          description: Fecha inicio YYYY-MM-DD
+        hasta:
+          type: string
+          description: Fecha fin YYYY-MM-DD
+        count:
+          type: integer
+          description: Cantidad de slots devueltos
+        slots:
+          type: array
+          items:
+            $ref: '#/components/schemas/SlotItem'
+      required:
+      - bucket
+      - count
+      - desde
+      - hasta
+      - slots
+    SyncBuckets:
+      type: object
+      description: |-
+        VALIDADOR para POST /calendar/buckets/sincronizar
+
+        QUÉ VALIDA:
+          Técnicamente no requiere parámetros (puede ser {} vacío)
+
+        PARÁMETROS OPCIONALES:
+          - silent: boolean (default False)
+            Si true → modo silencioso (para integraciones automáticas)
+
+        QUÉ HACE:
+          - Lee Google Calendar BD
+          - Extrae todos los buckets presentes
+          - Borra registros de tabla.Bucket que ya no tienen eventos
+
+        CASO DE USO:
+          POST /calendar/buckets/sincronizar
+          {}
+
+          Respuesta:
+          {
+            "buckets_in_google": ["medico", "peluqueria"],
+            "deleted_from_table": ["viejo_bucket"],
+            "deleted_count": 1
+          }
+
+          → Tabla ahora está limpia y sincronizada
+      properties:
+        silent:
+          type: boolean
+          default: false
+    SyncBucketsResponse:
+      type: object
+      properties:
+        synced_at:
+          type: string
+        buckets_in_google:
+          type: array
+          items:
+            type: string
+        deleted_from_table:
+          type: array
+          items:
+            type: string
+        deleted_count:
+          type: integer
+        message:
+          type: string
+      required:
+      - buckets_in_google
+      - deleted_count
+      - deleted_from_table
+      - message
+      - synced_at
+    TimeWindow:
+      type: object
+      description: Ventana de tiempo HH:MM a HH:MM para generación de slots.
+      properties:
+        start:
+          type: string
+          description: 'Hora inicio HH:MM (ej: 09:00)'
+          maxLength: 5
+        end:
+          type: string
+          description: 'Hora fin HH:MM (ej: 18:00)'
+          maxLength: 5
+      required:
+      - end
+      - start
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
+servers:
+- url: https://175galindez.pythonanywhere.com
+  description: Producción
